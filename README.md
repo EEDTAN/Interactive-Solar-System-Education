@@ -1,147 +1,95 @@
 # Interactive Solar System (Education)
 
-Media belajar tata surya berbahasa Indonesia yang berjalan langsung di browser. Posisi planet dihitung untuk tanggal yang kamu pilih, dan angka-angkanya berasal dari NASA dan JPL.
+Tata surya 3D interaktif berbahasa Indonesia. Planet tampil dengan tekstur dari data wahana antariksa, berada di posisi sebenarnya untuk tanggal yang tampil, dan bisa didekati, diputar, serta diperbesar langsung di browser.
 
 <p align="center">
   <a href="https://eedtan.github.io/Interactive-Solar-System-Education/">
-    <img src="https://img.shields.io/badge/Buka_aplikasi-Interactive_Solar_System-ffb547?style=for-the-badge&labelColor=121a2b" alt="Buka aplikasi Interactive Solar System" height="40">
+    <img src="https://img.shields.io/badge/Buka_aplikasi-Interactive_Solar_System-ffc768?style=for-the-badge&labelColor=0c101c" alt="Buka aplikasi Interactive Solar System" height="40">
   </a>
 </p>
 
 <p align="center">
-  <a href="https://eedtan.github.io/Interactive-Solar-System-Education/jelajah.html">
-    <img src="docs/preview-jelajah.jpg" alt="Halaman Jelajah 3D: Matahari, planet, sabuk asteroid, dan orbitnya" width="900">
+  <a href="https://eedtan.github.io/Interactive-Solar-System-Education/">
+    <img src="docs/preview-earth.jpg" alt="Bumi dari dekat dengan awan, kilau laut, dan kartu info kaca" width="900">
   </a>
 </p>
 
 <p align="center">
-  Buka langsung:
-  <a href="https://eedtan.github.io/Interactive-Solar-System-Education/">Beranda</a> ·
-  <a href="https://eedtan.github.io/Interactive-Solar-System-Education/jelajah.html">Jelajah 3D</a> ·
-  <a href="https://eedtan.github.io/Interactive-Solar-System-Education/ensiklopedia.html">Ensiklopedia</a> ·
-  <a href="https://eedtan.github.io/Interactive-Solar-System-Education/bandingkan.html">Bandingkan</a> ·
-  <a href="https://eedtan.github.io/Interactive-Solar-System-Education/kalkulator.html">Kalkulator</a> ·
-  <a href="https://eedtan.github.io/Interactive-Solar-System-Education/kepler.html">Hukum Kepler</a> ·
-  <a href="https://eedtan.github.io/Interactive-Solar-System-Education/bulan.html">Fase Bulan</a> ·
-  <a href="https://eedtan.github.io/Interactive-Solar-System-Education/kuis.html">Kuis</a> ·
-  <a href="https://eedtan.github.io/Interactive-Solar-System-Education/glosarium.html">Glosarium</a> ·
-  <a href="https://eedtan.github.io/Interactive-Solar-System-Education/sejarah.html">Sejarah</a>
+  <img src="docs/preview-overview.jpg" alt="Seluruh tata surya dengan orbit dan nama planet" width="445">
+  <img src="docs/preview-saturn.jpg" alt="Saturnus dan cincinnya dari dekat" width="445">
 </p>
-
-## Yang bisa dipelajari
-
-| Halaman | Yang bisa kamu lakukan | Materi |
-|---|---|---|
-| [Beranda](https://eedtan.github.io/Interactive-Solar-System-Education/) | Melihat letak delapan planet hari ini beserta jaraknya dari Matahari | Susunan tata surya, satuan astronomi |
-| [Jelajah 3D](https://eedtan.github.io/Interactive-Solar-System-Education/jelajah.html) | Memutar dan memperbesar model tiga dimensi, memilih tanggal antara tahun 1800 dan 2050, mempercepat atau memundurkan waktu, lalu memilih benda untuk melihat datanya. Ada juga tabel jarak tiap planet dari Bumi dan perkiraan kapan planet itu paling mudah diamati. | Revolusi planet, orbit yang lonjong dan miring (Pluto, Komet Halley), skala jarak, ekor komet yang selalu menjauhi Matahari |
-| [Ensiklopedia](https://eedtan.github.io/Interactive-Solar-System-Education/ensiklopedia.html) | Membaca profil 16 benda langit dan 4 wilayah tata surya: foto NASA, data fisik dan orbit, fakta, satelit utama, dan misi antariksa | Planet kebumian, raksasa gas, raksasa es, planet kerdil, satelit, komet, sabuk asteroid, Sabuk Kuiper, Awan Oort, heliosfer |
-| [Bandingkan](https://eedtan.github.io/Interactive-Solar-System-Education/bandingkan.html) | Menjajarkan planet sesuai ukuran sebenarnya, membandingkan dua benda, membuat grafik dari sepuluh besaran (ada pilihan skala logaritmik), dan mengurutkan tabel data | Perbandingan ukuran, massa, gravitasi, jarak, dan suhu; membaca grafik |
-| [Kalkulator](https://eedtan.github.io/Interactive-Solar-System-Education/kalkulator.html) | Menghitung berat badan di benda lain, umur dalam tahun planet lain, waktu tempuh cahaya, model skala tata surya, dan lama perjalanan ke tiap planet | Massa dan berat, periode revolusi, kecepatan cahaya, skala jarak |
-| [Hukum Kepler](https://eedtan.github.io/Interactive-Solar-System-Education/kepler.html) | Mengubah kelonjongan orbit, lalu mengamati planet yang melaju lebih cepat di dekat Matahari, tali dua titik fokus, dan juring yang luasnya sama; menghitung periode orbit dari jarak | Hukum Kepler I, II, dan III |
-| [Fase Bulan](https://eedtan.github.io/Interactive-Solar-System-Education/bulan.html) | Melihat bentuk Bulan pada tanggal dan jam pilihanmu, menggeser umur Bulan sepanjang satu siklus, melihat jadwal fase berikutnya dan kalender fase | Penyebab fase Bulan, bulan sinodis dan sideris, rotasi sinkron, hilal |
-| [Kuis](https://eedtan.github.io/Interactive-Solar-System-Education/kuis.html) | Mengerjakan soal pilihan ganda dari bank 60 soal dalam 5 topik, dengan pembahasan di setiap jawaban | Evaluasi semua materi |
-| [Glosarium](https://eedtan.github.io/Interactive-Solar-System-Education/glosarium.html) | Mencari arti 54 istilah astronomi dan mengikuti tautan ke istilah yang berkaitan | Istilah dasar tata surya |
-| [Sejarah](https://eedtan.github.io/Interactive-Solar-System-Education/sejarah.html) | Menelusuri 36 peristiwa, dari catatan Komet Halley tahun 240 SM sampai misi tahun 2026, termasuk tonggak di Indonesia | Sejarah astronomi dan penjelajahan antariksa |
 
 ## Cara memakai
 
-Untuk belajar sendiri, urutan ini bisa diikuti:
+- Klik atau ketuk sebuah planet, atau namanya, dan kamera akan terbang mendekat.
+- Seret untuk memutar arah kamera. Gulir atau cubit untuk memperbesar sampai detail permukaannya terlihat.
+- Tekan Esc atau tombol di kiri atas untuk kembali melihat seluruh tata surya.
+- Bilah di bawah menjeda atau menjalankan waktu, mengatur kecepatannya dari waktu nyata sampai 1 tahun per detik, dan mengembalikan ke saat sekarang.
+- Dengan papan ketik: panah kiri dan kanan berpindah benda, panah atas dan bawah memutar kamera naik turun, Shift dengan panah kiri atau kanan memutar ke samping, tombol + dan - memperbesar atau memperkecil, dan Spasi menjeda waktu.
 
-1. Jelajah 3D: lihat susunan tata surya, jalankan waktu, dan perhatikan planet dalam beredar jauh lebih cepat daripada planet luar.
-2. Ensiklopedia: baca profil Matahari dan Bumi, lalu satu planet yang paling membuatmu penasaran.
-3. Bandingkan: lihat ukuran sebenarnya dan bandingkan planet pilihanmu dengan Bumi.
-4. Hukum Kepler: amati orbit yang berbentuk elips dan planet yang melaju lebih cepat saat dekat Matahari.
-5. Fase Bulan: cocokkan bentuk Bulan dengan posisinya terhadap Matahari dan Bumi.
-6. Kalkulator: pakai angka yang sudah kamu baca untuk berlatih menghitung.
-7. Kuis: kerjakan per topik dan baca pembahasan untuk jawaban yang salah.
+## Yang bisa dipelajari
 
-Glosarium bisa dibuka kapan saja saat bertemu istilah asing.
+- Letak tiap planet hari ini, dihitung dari elemen orbit JPL, dan gerakannya: planet dalam beredar jauh lebih cepat daripada planet luar, dan orbit Pluto lonjong serta miring.
+- Rupa tiap benda dari dekat: awan, kilau laut, dan lampu kota Bumi; kawah Bulan dan Merkurius; Valles Marineris di Mars; pita awan Jupiter; cincin Saturnus beserta bayangan planetnya; wilayah kemerahan dan dataran es di Pluto.
+- Kemiringan sumbu dan arah putaran menurut data IAU: Uranus tampak terguling, Venus dan Uranus berputar terbalik, dan sisi siang serta malam Bumi sesuai jam yang tampil.
+- Kartu info tiap benda: diameter, jarak dari Bumi saat itu beserta waktu tempuh cahayanya, panjang hari dan tahun, gravitasi, suhu, jumlah satelit, serta penjelasan dan fakta dalam bahasa Indonesia.
 
-Untuk guru, Jelajah 3D cocok ditampilkan lewat proyektor: hentikan waktu, minta siswa menebak letak planet sebulan kemudian, lalu jalankan lagi untuk memeriksa. Kuis bisa dipilih per topik untuk mengecek pemahaman di akhir satu pokok bahasan; skornya hanya tersimpan di browser siswa. Kalkulator bisa dipakai untuk memeriksa soal hitungan yang dikerjakan di kertas.
+Ukuran planet sebanding satu sama lain. Matahari diperkecil, dan jarak antarplanet serta jarak Bulan dipadatkan supaya semuanya muat di layar.
 
 ## Bahasa pemrograman
 
 | Bahasa | Dipakai untuk |
 |---|---|
-| HTML | Struktur 10 halaman |
-| CSS | Tampilan: satu sistem desain bersama (`css/style.css`) ditambah aturan khusus tiap halaman |
-| JavaScript | Semua interaksi dan perhitungan di browser: posisi planet dari elemen orbit Kepler, fase Bulan, gambar 3D di kanvas (dibuat sendiri tanpa pustaka), grafik, kalkulator, dan kuis |
-| Python | Menyusun dan memeriksa data (`tools/build_data.py` mengubah CSV dan JSON menjadi `js/data.js`) serta mengambil elemen orbit dari JPL Horizons (`tools/fetch_small_bodies.py`) |
-
-Tidak ada framework atau pustaka luar, jadi setiap baris kodenya bisa dibaca dan dipelajari.
+| HTML | Satu halaman: kanvas 3D, label, kartu info, bilah waktu, panduan |
+| CSS | Tampilan kaca buram (blur) di atas adegan 3D, termasuk tata letak khusus ponsel |
+| JavaScript | Adegan 3D dengan [three.js](https://threejs.org/) (WebGL), posisi planet dan Bulan, rotasi tiap benda, kamera, dan interaksi |
+| Python | Menyusun dan memeriksa data menjadi `js/data.js` (`tools/build_data.py`) |
 
 ```
 Interactive-Solar-System-Education/
-├── index.html, jelajah.html, ...   10 halaman
-├── css/
-│   ├── style.css                   sistem desain bersama
-│   └── <halaman>.css               aturan khusus tiap halaman
+├── index.html            satu-satunya halaman
+├── css/app.css           tampilan kaca
 ├── js/
-│   ├── astro.js                    perhitungan astronomi (posisi planet, fase Bulan)
-│   ├── common.js                   fungsi bersama (format angka, gambar planet, penggaris jarak, menu)
-│   ├── orrery.js                   mesin gambar 3D untuk Jelajah 3D
-│   ├── data.js                     dibuat otomatis dari folder data/
-│   └── <halaman>.js                logika tiap halaman
-├── data/                           sumber data: CSV dan JSON (penjelasan di data/README.md)
-├── img/                            foto NASA tiap benda langit
-├── tools/                          skrip Python
-├── tests/                          uji perhitungan dan data rujukan JPL Horizons serta USNO
-└── docs/                           gambar untuk README
+│   ├── app.js            kamera, waktu, label, kartu info
+│   ├── planets.js        benda langit 3D: tekstur, atmosfer, awan, cincin, cahaya Matahari
+│   ├── astro.js          perhitungan posisi planet dan Bulan
+│   ├── data.js           dibuat otomatis dari folder data/
+│   └── vendor/three/     three.js
+├── assets/
+│   ├── textures/         peta permukaan planet 1K, 2K, 4K
+│   └── fonts/            Plus Jakarta Sans
+├── data/                 sumber data CSV dan JSON (penjelasan di data/README.md)
+├── tools/build_data.py   penyusun dan pemeriksa data (Python)
+├── tests/                uji perhitungan dengan data rujukan JPL Horizons
+└── docs/                 gambar untuk README
 ```
+
+Tekstur 1K dimuat lebih dulu supaya halaman cepat terbuka. Tekstur 2K atau 4K baru dimuat saat sebuah benda didekati.
 
 ## Menjalankan di komputer sendiri
 
-Situs ini tidak butuh server atau internet.
-
-1. Di halaman GitHub ini, klik tombol Code lalu Download ZIP (atau pakai `git clone`), kemudian ekstrak.
-2. Buka `index.html` di browser.
-
-Kalau ingin mengubah data, edit berkas di folder `data/`, lalu jalankan:
+Browser tidak mengizinkan tampilan 3D bertekstur dari berkas yang dibuka langsung dari disk, jadi jalankan server lokal di folder proyek:
 
 ```
-python tools/build_data.py
+python -m http.server 8000
 ```
 
-Skrip itu memeriksa data dulu (kolom, angka, rujukan antarberkas, kecocokan dengan rumus fisika) sebelum menulis `js/data.js`.
+lalu buka `http://localhost:8000`.
 
-Uji perhitungan astronomi (butuh Node.js):
+Kalau mengubah isi folder `data/`, jalankan `python tools/build_data.py`. Uji perhitungan astronomi (butuh Node.js): `node tests/test_astro.js`.
 
-```
-node tests/test_astro.js
-```
+Kalau tampilan 3D terasa berat, pastikan akselerasi perangkat keras (hardware acceleration) aktif di pengaturan browser.
 
-Uji ini membandingkan posisi planet dengan JPL Horizons dan saat fase Bulan dengan tabel USNO.
+## Sumber data dan kredit
 
-## Sumber data dan ketelitian
+- Posisi planet: [JPL Approximate Positions of the Planets](https://ssd.jpl.nasa.gov/planets/approx_pos.html), berlaku tahun 1800 sampai 2050. Selisihnya dengan JPL Horizons paling besar sekitar 0,2 derajat.
+- Data fisik: [NASA NSSDCA Planetary Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/) dan fact sheet tiap planet. Satelit: [JPL Planetary Satellites](https://ssd.jpl.nasa.gov/sats/), jumlahnya dicek per 14 Oktober 2026.
+- Arah sumbu dan rotasi: IAU WGCCRE (Archinal dkk., 2018). Posisi Bulan: Jean Meeus, *Astronomical Algorithms*.
+- Tekstur: [Solar System Scope](https://www.solarsystemscope.com/textures/) (CC BY 4.0) dan peta Pluto NASA/JHUAPL/SwRI. Rincian di [assets/CREDITS.md](assets/CREDITS.md).
+- Huruf Plus Jakarta Sans (Tokotype, SIL Open Font License) dan three.js (lisensi MIT).
 
-- Data fisik: [NASA NSSDCA Planetary Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/) dan fact sheet tiap benda.
-- Posisi planet: [JPL Approximate Positions of the Planets](https://ssd.jpl.nasa.gov/planets/approx_pos.html), berlaku tahun 1800 sampai 2050. Selisihnya dengan JPL Horizons paling besar sekitar 0,2 derajat (Saturnus).
-- Ceres dan Komet Halley: beberapa set elemen orbit dari [JPL Horizons](https://ssd.jpl.nasa.gov/horizons/).
-- Satelit: [JPL Planetary Satellites](https://ssd.jpl.nasa.gov/sats/) dan [NASA Science](https://science.nasa.gov/solar-system/moons/). Jumlah satelit dicek per 14 Oktober 2026.
-- Fase Bulan: rumus Jean Meeus, *Astronomical Algorithms*. Selisihnya dengan tabel USNO 2026 paling besar 9 menit.
-
-Rincian tiap kolom, satuan, dan keputusan data ada di [data/README.md](data/README.md).
-
-## Kredit foto
-
-| Benda | Kredit | Sumber |
-|---|---|---|
-| Matahari | Courtesy of NASA/SDO and the AIA, EVE, and HMI science teams | [images.nasa.gov](https://images.nasa.gov/details/GSFC_20171208_Archive_e000923) |
-| Merkurius | NASA/Johns Hopkins University Applied Physics Laboratory/Arizona State University/Carnegie Institution of Washington | [science.nasa.gov](https://science.nasa.gov/photojournal/mercurys-true-color-is-in-the-eye-of-the-beholder/) |
-| Venus | NASA/JPL-Caltech | [science.nasa.gov](https://science.nasa.gov/photojournal/venus-from-mariner-10/) |
-| Bumi | NASA Johnson Space Center | [science.nasa.gov](https://science.nasa.gov/resource/the-blue-marble/) |
-| Bulan | NASA | [images.nasa.gov](https://images.nasa.gov/details/art002e009057) |
-| Mars | NASA/JPL/USGS | [science.nasa.gov](https://science.nasa.gov/photojournal/global-color-views-of-mars/) |
-| Ceres | NASA/JPL-Caltech/UCLA/MPS/DLR/IDA | [science.nasa.gov](https://science.nasa.gov/photojournal/ceres-in-color/) |
-| Jupiter | NASA/ESA | [images.nasa.gov](https://images.nasa.gov/details/GSFC_20171208_Archive_e001094) |
-| Saturnus | NASA/JPL/Space Science Institute | [science.nasa.gov](https://science.nasa.gov/photojournal/saturn-four-years-on/) |
-| Uranus | NASA/JPL-Caltech | [science.nasa.gov](https://science.nasa.gov/photojournal/uranus-as-seen-by-nasas-voyager-2/) |
-| Neptunus | NASA/JPL | [science.nasa.gov](https://science.nasa.gov/photojournal/neptune-full-disk-view/) |
-| Pluto | NASA/Johns Hopkins University Applied Physics Laboratory/Southwest Research Institute | [science.nasa.gov](https://science.nasa.gov/photojournal/pluto-in-true-color/) |
-| Komet Halley | W. Liller, International Halley Watch Large Scale Phenomena Network; NASA/NSSDCA | [nssdc.gsfc.nasa.gov](https://nssdc.gsfc.nasa.gov/photo_gallery/photogallery-comets.html#halley) |
-
-Foto-foto ini dipakai untuk keperluan pendidikan sesuai pedoman penggunaan media NASA dan mitranya. Foto tidak termasuk dalam lisensi kode di bawah.
+Rincian kolom, satuan, dan keputusan data ada di [data/README.md](data/README.md).
 
 ## Lisensi
 
-Kode di repositori ini memakai [lisensi MIT](LICENSE).
+Kode di repositori ini memakai [lisensi MIT](LICENSE). Tekstur dan huruf memakai lisensinya masing-masing seperti tercantum di atas.

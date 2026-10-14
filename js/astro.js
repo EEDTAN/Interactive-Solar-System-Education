@@ -6,8 +6,7 @@
  *
  * Posisi planet memakai elemen Kepler JPL "Approximate Positions of the Planets", Tabel 1
  * (berlaku 1800-2050). Hasilnya koordinat heliosentris pada bidang ekliptika J2000, dalam SA.
- * Posisi Bulan dan Matahari untuk fase Bulan memakai suku-suku terbesar dari
- * Jean Meeus, Astronomical Algorithms (bab 25 dan 47), ekliptika tanggal itu.
+ * Posisi Bulan memakai suku-suku terbesar dari Jean Meeus, Astronomical Algorithms (bab 47).
  */
 (function (root) {
   'use strict';
@@ -16,7 +15,6 @@
   var J2000 = 2451545.0; // 1 Januari 2000 pukul 12.00 TT, dalam hari Julian
   var AU_KM = 149597870.7;
   var C_KM_S = 299792.458;
-  var SYNODIC_RATE = 360 / 29.530588853; // laju rata-rata elongasi Bulan, derajat per hari
 
   // Batas tanggal yang didukung Tabel 1 JPL, dalam waktu lokal perangkat supaya tampil sebagai
   // 1 Januari 1800 dan 31 Desember 2050 di zona waktu mana pun (WIB, WITA, WIT).
@@ -44,7 +42,7 @@
   }
 
   // Persamaan Kepler M = E - e sin E, diselesaikan dengan metode Newton (sudut dalam radian).
-  // Tebakan awal M + 0,85 e tanda(sin M) tetap konvergen untuk orbit sangat lonjong (Komet Halley).
+  // Tebakan awal M + 0,85 e tanda(sin M) tetap konvergen untuk orbit yang sangat lonjong.
   function solveKepler(M, e) {
     var E = M + 0.85 * e * (Math.sin(M) >= 0 ? 1 : -1);
     for (var k = 0; k < 50; k++) {
@@ -55,19 +53,8 @@
     return E;
   }
 
-  // Ceres dan Halley punya beberapa set elemen (orbit.segments), masing-masing berlaku di sekitar
-  // epoch-nya. Pilih set yang rentang berlakunya memuat jd.
-  function segmentAt(segments, jd) {
-    for (var k = 0; k < segments.length; k++) {
-      var s = segments[k];
-      if ((s.from_jd === null || jd >= s.from_jd) && (s.to_jd === null || jd < s.to_jd)) return s;
-    }
-    return segments[segments.length - 1];
-  }
-
   // Elemen orbit pada tanggal tertentu: nilai J2000 ditambah laju per abad Julian.
   function elementsAt(orbit, jd) {
-    if (orbit.segments) orbit = segmentAt(orbit.segments, jd);
     var T = (jd - J2000) / 36525;
     return {
       a: orbit.a_au + orbit.a_rate * T,
@@ -94,27 +81,14 @@
     };
   }
 
-  function keplerPosition(orbit, jd) {
+  // Posisi heliosentris {x, y, z} dalam SA.
+  function helioPosition(orbit, jd) {
     var el = elementsAt(orbit, jd);
     var M = norm180(el.L - el.peri) * DEG; // anomali rata-rata
     var E = solveKepler(M, el.e);
     var xp = el.a * (Math.cos(E) - el.e);
     var yp = el.a * Math.sqrt(1 - el.e * el.e) * Math.sin(E);
     return toEcliptic(xp, yp, el);
-  }
-
-  // Posisi heliosentris {x, y, z} dalam SA.
-  // Untuk Ceres dan Halley: hitung dengan dua set elemen yang epoch-nya mengapit jd, lalu campur
-  // menurut jarak waktunya. Gerakannya jadi mulus, tanpa lompatan saat berganti set.
-  function helioPosition(orbit, jd) {
-    var segs = orbit.segments;
-    if (!segs) return keplerPosition(orbit, jd);
-    var k = 0;
-    while (k < segs.length - 1 && segs[k + 1].epoch_jd <= jd) k++;
-    if (k === segs.length - 1 || jd <= segs[k].epoch_jd) return keplerPosition(segs[k], jd);
-    var w = (jd - segs[k].epoch_jd) / (segs[k + 1].epoch_jd - segs[k].epoch_jd);
-    var p = keplerPosition(segs[k], jd), q = keplerPosition(segs[k + 1], jd);
-    return { x: p.x + (q.x - p.x) * w, y: p.y + (q.y - p.y) * w, z: p.z + (q.z - p.z) * w };
   }
 
   // Titik-titik satu putaran orbit penuh (elips) memakai elemen pada tanggal jd.
@@ -130,50 +104,15 @@
     return pts;
   }
 
-  function length(v) {
-    return Math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
-  }
-
-  // Bujur dan lintang ekliptika (derajat) dari sebuah vektor.
-  function lonLat(v) {
-    var r = length(v);
-    return { lon: norm360(Math.atan2(v.y, v.x) / DEG), lat: Math.asin(v.z / r) / DEG, r: r };
-  }
-
   // Benda dilihat dari Bumi. earthPos = posisi heliosentris Bumi (barisan "earth" di orbits.csv,
   // yaitu pusat massa Bumi-Bulan; bedanya dengan pusat Bumi kurang dari 5.000 km).
-  // Hasil: jarak (SA), bujur/lintang geosentris, elongasi dari Matahari (derajat) dan
-  // east = true bila benda di timur Matahari (terlihat di langit senja).
+  // Hasil: jarak (SA) dan elongasi dari Matahari (derajat).
   function fromEarth(bodyPos, earthPos) {
     var v = { x: bodyPos.x - earthPos.x, y: bodyPos.y - earthPos.y, z: bodyPos.z - earthPos.z };
-    var sun = { x: -earthPos.x, y: -earthPos.y, z: -earthPos.z };
-    var g = lonLat(v);
-    var s = lonLat(sun);
-    var cosE = (v.x * sun.x + v.y * sun.y + v.z * sun.z) / (g.r * s.r);
-    var elong = Math.acos(Math.max(-1, Math.min(1, cosE))) / DEG;
-    return { dist: g.r, lon: g.lon, lat: g.lat, elongation: elong, east: norm180(g.lon - s.lon) > 0 };
-  }
-
-  // Perkiraan kapan benda bisa dilihat, dari elongasinya saja (tanpa lokasi pengamat).
-  // 'sun-glare' : terlalu dekat Matahari
-  // 'all-night' : dekat oposisi, terlihat hampir sepanjang malam
-  // 'evening'   : di timur Matahari, terlihat setelah Matahari terbenam
-  // 'morning'   : di barat Matahari, terlihat sebelum Matahari terbit
-  function visibility(elongation, east) {
-    if (elongation < 15) return 'sun-glare';
-    if (elongation >= 150) return 'all-night';
-    return east ? 'evening' : 'morning';
-  }
-
-  // Bujur geometris Matahari (derajat, ekuinoks tanggal itu). Meeus bab 25, ketelitian sekitar 0,01 derajat.
-  function sunLongitude(jd) {
-    var T = (jd - J2000) / 36525;
-    var L0 = 280.46646 + 36000.76983 * T + 0.0003032 * T * T;
-    var M = (357.52911 + 35999.05029 * T - 0.0001537 * T * T) * DEG;
-    var C = (1.914602 - 0.004817 * T - 0.000014 * T * T) * Math.sin(M) +
-      (0.019993 - 0.000101 * T) * Math.sin(2 * M) +
-      0.000289 * Math.sin(3 * M);
-    return norm360(L0 + C);
+    var dist = Math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+    var sunDist = Math.sqrt(earthPos.x * earthPos.x + earthPos.y * earthPos.y + earthPos.z * earthPos.z);
+    var cosE = -(v.x * earthPos.x + v.y * earthPos.y + v.z * earthPos.z) / (dist * sunDist);
+    return { dist: dist, elongation: Math.acos(Math.max(-1, Math.min(1, cosE))) / DEG };
   }
 
   // Posisi Bulan dilihat dari pusat Bumi: bujur dan lintang ekliptika (derajat, ekuinoks tanggal itu)
@@ -230,76 +169,6 @@
     return { lon: norm360(lon), lat: lat, distKm: distKm };
   }
 
-  // Nama fase dari elongasi (0 = Bulan baru, 90 = kuartal pertama, 180 = purnama, 270 = kuartal akhir).
-  // Fase utama diberi rentang 24 derajat, sekitar satu hari di sekitar saat tepatnya.
-  function phaseKey(elongation) {
-    var e = norm360(elongation);
-    if (e < 12 || e >= 348) return 'new';
-    if (e < 78) return 'waxing-crescent';
-    if (e < 102) return 'first-quarter';
-    if (e < 168) return 'waxing-gibbous';
-    if (e < 192) return 'full';
-    if (e < 258) return 'waning-gibbous';
-    if (e < 282) return 'last-quarter';
-    return 'waning-crescent';
-  }
-
-  function elongationAt(jd) {
-    return norm360(moonPosition(jd).lon - sunLongitude(jd));
-  }
-
-  // Cari saat elongasi Bulan tepat sama dengan target (derajat), mulai dari tebakan jd0.
-  function refinePhase(jd0, target) {
-    var jd = jd0;
-    for (var k = 0; k < 12; k++) {
-      var diff = norm180(elongationAt(jd) - target);
-      jd -= diff / SYNODIC_RATE;
-      if (Math.abs(diff) < 1e-6) break;
-    }
-    return jd;
-  }
-
-  // Keadaan Bulan pada jd: elongasi, bagian yang tersinari (0-1), umur sejak Bulan baru (hari),
-  // nama fase, dan apakah sedang membesar.
-  function moonPhase(jd) {
-    var m = moonPosition(jd);
-    var sunLon = sunLongitude(jd);
-    var elong = norm360(m.lon - sunLon);
-    // Sudut Bulan-Matahari dilihat dari Bumi; fraksi tersinari = (1 - cos sudut) / 2.
-    var psi = Math.acos(Math.cos(m.lat * DEG) * Math.cos(elong * DEG));
-    // Tepat di saat Bulan baru elongasi bisa 359,99999...; jangan mundur satu bulan penuh.
-    var lastNew = refinePhase(jd - (elong > 359.99 ? elong - 360 : elong) / SYNODIC_RATE, 0);
-    return {
-      elongation: elong,
-      illumination: (1 - Math.cos(psi)) / 2,
-      ageDays: Math.max(0, jd - lastNew),
-      key: phaseKey(elong),
-      waxing: elong < 180,
-      moon: m,
-      sunLon: sunLon
-    };
-  }
-
-  var PRIMARY_PHASES = ['new', 'first-quarter', 'full', 'last-quarter'];
-
-  // count fase utama berikutnya setelah jd: [{key, jd}].
-  function nextPhases(jd, count) {
-    var e = elongationAt(jd);
-    var q = Math.floor(e / 90) + 1;
-    var list = [];
-    while (list.length < count) {
-      var t = refinePhase(jd + (q * 90 - e) / SYNODIC_RATE, (q % 4) * 90);
-      if (t > jd) list.push({ key: PRIMARY_PHASES[q % 4], jd: t });
-      q++;
-    }
-    return list;
-  }
-
-  // Hukum Kepler III untuk benda yang mengelilingi Matahari: periode (tahun) dari sumbu semi-mayor (SA).
-  function periodYears(aAU) {
-    return Math.pow(aAU, 1.5);
-  }
-
   var Astro = {
     DEG: DEG,
     J2000: J2000,
@@ -315,15 +184,8 @@
     elementsAt: elementsAt,
     helioPosition: helioPosition,
     orbitPath: orbitPath,
-    lonLat: lonLat,
     fromEarth: fromEarth,
-    visibility: visibility,
-    sunLongitude: sunLongitude,
-    moonPosition: moonPosition,
-    moonPhase: moonPhase,
-    phaseKey: phaseKey,
-    nextPhases: nextPhases,
-    periodYears: periodYears
+    moonPosition: moonPosition
   };
 
   if (typeof module === 'object' && module.exports) module.exports = Astro;

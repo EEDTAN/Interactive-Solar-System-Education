@@ -10,11 +10,10 @@ Skrip itu memeriksa data lebih dulu (kolom, angka, rujukan antarberkas, dan keco
 
 | Berkas | Isi | Sumber utama |
 |---|---|---|
-| `bodies.csv` | Data fisik dan orbit ringkas 16 benda: Matahari, 8 planet, Bulan, 5 planet kerdil, dan Komet Halley | [NASA NSSDCA Planetary Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/) (versi 18 Maret 2025) beserta fact sheet Matahari, Bulan, Pluto, dan benda kecil; [JPL Small-Body Database](https://ssd.jpl.nasa.gov/tools/sbdb_lookup.html) |
+| `bodies.csv` | Data fisik, orbit ringkas, arah sumbu, dan rotasi 11 benda: Matahari, 8 planet, Bulan, Pluto | [NASA NSSDCA Planetary Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/) (versi 18 Maret 2025) dan fact sheet tiap planet; [IAU WGCCRE](https://doi.org/10.1007/s10569-017-9805-5) untuk sumbu dan rotasi |
 | `orbits.csv` | Elemen orbit Kepler planet dan Pluto pada J2000, plus lajunya per abad | [JPL, Approximate Positions of the Planets](https://ssd.jpl.nasa.gov/planets/approx_pos.html), Tabel 1 (berlaku 1800 sampai 2050) |
-| `orbits_small_bodies.csv` | 26 set elemen Ceres (tiap 10 tahun) dan 8 set Komet Halley (saat perihelion 1835, 1910, 1986, dan di antaranya) | [JPL Horizons](https://ssd.jpl.nasa.gov/horizons/), diambil dengan `tools/fetch_small_bodies.py` |
-| `moons.csv` | 23 satelit utama: jari-jari, jarak rata-rata dari planetnya, periode orbit, tahun dan penemu | [JPL Planetary Satellites](https://ssd.jpl.nasa.gov/sats/), NASA NSSDCA |
-| `content.json` | Teks pelajaran berbahasa Indonesia, warna tampilan, kredit foto, kuis, glosarium, linimasa, dan konstanta | Ditulis untuk proyek ini, lalu dicek fakta dengan halaman NASA, JPL, ESA, IAU, dan lembaga lain |
+| `moons.csv` | 22 satelit utama: jari-jari, jarak rata-rata dari planetnya, periode orbit, tahun dan penemu | [JPL Planetary Satellites](https://ssd.jpl.nasa.gov/sats/), NASA NSSDCA |
+| `content.json` | Teks berbahasa Indonesia untuk kartu info tiap benda dan warna labelnya | Ditulis untuk proyek ini, lalu dicek fakta dengan halaman NASA, JPL, ESA, IAU, dan lembaga lain |
 
 ## Kolom `bodies.csv`
 
@@ -23,7 +22,7 @@ Skrip itu memeriksa data lebih dulu (kolom, angka, rujukan antarberkas, dan keco
 | `id` | kode benda | |
 | `name_id` | nama dalam bahasa Indonesia | |
 | `parent` | benda yang dikelilingi (`sun` atau `earth`) | |
-| `type` | `star`, `terrestrial`, `gas_giant`, `ice_giant`, `dwarf`, `moon`, `comet` | |
+| `type` | `star`, `terrestrial`, `gas_giant`, `ice_giant`, `dwarf`, `moon` | |
 | `diameter_km` | diameter | km |
 | `mass_1e24_kg` | massa | 10²⁴ kg |
 | `density_kg_m3` | massa jenis rata-rata | kg/m³ |
@@ -44,8 +43,10 @@ Skrip itu memeriksa data lebih dulu (kolom, angka, rujukan antarberkas, dan keco
 | `moons_as_of` | tanggal jumlah satelit itu dicek | |
 | `rings` | punya sistem cincin | `yes` / `no` |
 | `magnetic_field` | punya medan magnet global | `yes` / `no` / `unknown` |
+| `pole_ra_deg`, `pole_dec_deg` | arah kutub utara sumbu rotasi (asensio rekta dan deklinasi, J2000) | derajat |
+| `w0_deg`, `w_rate_deg_day` | letak meridian nol pada J2000 dan lajunya; negatif = rotasi terbalik | derajat, derajat per hari |
 
-Sel kosong berarti belum ada sumber tepercaya untuk nilai itu. Aplikasi menampilkannya sebagai "tidak diketahui", bukan nol.
+Sel kosong berarti belum ada sumber tepercaya untuk nilai itu, dan aplikasi tidak menampilkannya.
 
 ## Catatan dan keputusan
 
@@ -56,19 +57,16 @@ Sel kosong berarti belum ada sumber tepercaya untuk nilai itu. Aplikasi menampil
 - Planet raksasa tidak punya permukaan padat. Gravitasi dan suhunya diukur pada ketinggian bertekanan 1 bar, dan tekanan permukaannya dikosongkan.
 - Suhu Matahari adalah suhu efektif fotosfer, 5.772 K atau sekitar 5.499 °C.
 - Pluto: gravitasi 0,62 m/s² dan kecepatan lepas 1,21 km/s diambil dari Pluto Fact Sheet. Tabel ringkasan NASA mencantumkan 0,7 dan 1,3, yang tidak cocok dengan massa dan diameter Pluto di tabel yang sama.
-- Ceres: diameter 939,4 km dan massanya berasal dari misi Dawn (SBDB). Gravitasi, kecepatan lepas, kecepatan orbit, dan suhunya dari NSSDCA Small Worlds Fact Sheet.
-- Eris: diameter 2.326 km dari pengamatan okultasi bintang (Sicardy dkk., Nature, 2011). Massa dan massa jenisnya adalah nilai sistem Eris dan Dysnomia (Holler dkk., 2021). Periode rotasinya 378,5 jam (sekitar 15,8 hari) karena Eris terkunci pasang surut dengan Dysnomia (Bernstein dkk., 2023); angka lama 25,9 jam sudah tidak dipakai. Gravitasi dan kecepatan lepasnya dihitung dari massa dan jari-jari tersebut.
-- Haumea berbentuk lonjong. Angka 1.740 km adalah perkiraan diameter dari NASA; sumbu terpanjangnya sekitar 2.300 km (okultasi bintang 2017).
-- Komet Halley tidak punya satu angka diameter; intinya berukuran sekitar 15 × 8 km. Jarak, periode, dan eksentrisitasnya berasal dari elemen orbit saat perihelion 1986.
 - Periode orbit Io, Europa, Ganymede, dan Callisto memakai periode sideris NSSDCA. Kolom periode di tabel elemen rata-rata JPL untuk keempatnya berisi periode anomalistik.
 - Elemen orbit Pluto berasal dari tabel yang sama milik JPL (Standish dan Williams); halaman JPL yang sekarang tidak lagi memuat baris Pluto.
+- Arah sumbu dan meridian nol mengikuti laporan IAU WGCCRE (Archinal dkk., 2018), tanpa suku periodik kecilnya. Karena itu Uranus tampak "terguling", Venus dan Uranus berputar terbalik, dan sisi siang serta malam Bumi di layar sesuai jam yang ditampilkan.
 
 ## Ketelitian
 
-`tests/test_astro.js` membandingkan perhitungan aplikasi dengan JPL Horizons dan USNO:
+`tests/test_astro.js` membandingkan perhitungan aplikasi dengan JPL Horizons:
 
-- Posisi planet pada 1800, 1900, 1950, 2000, 2026, 2049, dan akhir 2050 meleset paling banyak sekitar 0,15 derajat (Saturnus), sesuai ketelitian resmi tabel JPL. Pemeriksaan tiap 20 hari sepanjang 1800 sampai 2050 memberi galat terbesar sekitar 0,2 derajat, juga untuk Saturnus.
-- Untuk Ceres dan Halley, aplikasi menghitung posisi dari dua set elemen yang epoch-nya mengapit tanggal itu, lalu mencampur hasilnya menurut jarak waktu. Ceres meleset paling banyak sekitar 0,6 derajat (di antara dua epoch) dan Halley kurang dari 0,05 derajat. Dengan satu set saja, Ceres bisa meleset lebih dari 20 derajat pada tahun 1800-an, dan Halley tergambar di sisi Matahari yang salah saat kunjungan 1835.
-- Saat fase utama Bulan sepanjang 2026 selisih paling besar 9 menit dari tabel USNO.
+- Posisi planet dan Pluto pada 1800, 1900, 1950, 2000, 2026, 2049, dan akhir 2050 meleset paling banyak sekitar 0,15 derajat (Saturnus), sesuai ketelitian resmi tabel JPL.
+- Posisi Bulan meleset kurang dari 0,15 derajat dan jaraknya kurang dari sekitar 150 km.
+- Titik di Bumi yang tepat di bawah Matahari pada 15 Oktober 2026 pukul 05.00 UTC jatuh di sekitar 101,5 derajat bujur timur, sesuai perhitungan dari jam dan perata waktu.
 
 Jalankan ujinya dengan `node tests/test_astro.js`.

@@ -2,185 +2,90 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Beranda | Interactive Solar System</title>
-<meta name="description" content="Belajar tata surya dalam bahasa Indonesia: posisi planet hari ini, penjelajah 3D, ensiklopedia, kalkulator, dan kuis dengan data NASA dan JPL.">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Interactive Solar System</title>
+<meta name="description" content="Tata surya 3D interaktif berbahasa Indonesia: planet bertekstur asli pada posisi sebenarnya, bisa didekati, diputar, dan diperbesar.">
+<meta name="theme-color" content="#04060b">
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/beranda.css">
-<script>document.documentElement.className = 'js';</script>
+<link rel="preload" href="assets/fonts/PlusJakartaSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/app.css">
+<script type="importmap">
+{ "imports": { "three": "./js/vendor/three/three.module.js", "three/addons/": "./js/vendor/three/addons/" } }
+</script>
 </head>
 <body>
-<a class="skip-link" href="#main">Langsung ke isi</a>
-<header class="site-header">
-  <div class="wrap site-header__bar">
-    <a class="brand" href="index.html">Interactive Solar System</a>
-    <button class="btn btn--quiet nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
-    <nav class="site-nav" id="site-nav" aria-label="Navigasi utama">
-      <ul>
-        <li><a href="index.html" aria-current="page">Beranda</a></li>
-        <li><a href="jelajah.html">Jelajah 3D</a></li>
-        <li><a href="ensiklopedia.html">Ensiklopedia</a></li>
-        <li><a href="bandingkan.html">Bandingkan</a></li>
-        <li><a href="kalkulator.html">Kalkulator</a></li>
-        <li><a href="kepler.html">Hukum Kepler</a></li>
-        <li><a href="bulan.html">Fase Bulan</a></li>
-        <li><a href="kuis.html">Kuis</a></li>
-        <li><a href="glosarium.html">Glosarium</a></li>
-        <li><a href="sejarah.html">Sejarah</a></li>
-      </ul>
-    </nav>
-  </div>
+<canvas id="scene" tabindex="-1" aria-label="Tata surya tiga dimensi. Pilih nama benda langit untuk mendekatinya."></canvas>
+
+<div class="labels" id="labels" role="group" aria-label="Benda langit"></div>
+
+<header class="topbar">
+  <button class="glass pill brand" id="home" type="button">
+    <span class="brand__back" aria-hidden="true">
+      <svg viewBox="0 0 20 20" width="18" height="18"><path d="M12.5 4.5 7 10l5.5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+    <span id="home-text">Interactive Solar System</span>
+  </button>
+  <button class="glass round" id="help-btn" type="button" aria-label="Cara memakai dan sumber" aria-expanded="false" aria-controls="help">?</button>
 </header>
 
-<main id="main">
-  <noscript><div class="wrap"><p class="notice">Halaman ini membutuhkan JavaScript agar bisa berjalan.</p></div></noscript>
+<aside class="glass card" id="card" hidden aria-labelledby="card-title"></aside>
 
-  <section class="section">
-    <div class="wrap hero">
-      <div class="hero__text">
-        <h1>Tata surya hari ini</h1>
-        <p class="lead">Interactive Solar System adalah situs belajar tata surya berbahasa Indonesia. Peta ini menunjukkan letak delapan planet hari ini, dihitung langsung di perangkatmu dari elemen orbit JPL.</p>
-        <div class="row hero__actions">
-          <a class="btn btn--primary" href="jelajah.html">Buka penjelajah 3D</a>
-          <a class="btn btn--quiet" href="ensiklopedia.html">Buka ensiklopedia</a>
-        </div>
-      </div>
-
-      <figure class="snapshot" id="snapshot">
-        <div class="canvas-box">
-          <canvas id="snapshot-canvas" role="img" aria-label="Peta posisi delapan planet hari ini, dilihat dari atas kutub utara ekliptika."></canvas>
-        </div>
-        <figcaption class="small muted">
-          Posisi pada <span id="snapshot-date">hari ini</span>, dilihat dari atas kutub utara ekliptika; jarak dipadatkan, ukuran tidak berskala.
-          Planet beredar berlawanan arah jarum jam. Pilih planet di peta atau di daftar untuk membuka profilnya.
-        </figcaption>
-      </figure>
-
-      <section class="today" aria-labelledby="today-title">
-        <h2 class="today__title" id="today-title">Jarak dari Matahari hari ini</h2>
-        <ul class="today__list" id="today-list"></ul>
-        <p class="small muted today__note" id="au-note" hidden></p>
-      </section>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="ruler-title">
-    <div class="wrap">
-      <h2 id="ruler-title">Jarak rata-rata dari Matahari</h2>
-      <div class="ruler-box" id="ruler"></div>
-      <p class="small muted ruler-caption">Skala logaritmik: ruas 1 sampai 10 SA sama panjang dengan ruas 10 sampai 100 SA, sehingga Merkurius dan Neptunus muat di satu garis. Di layar sempit, geser penggaris ke samping.</p>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="pages-title">
-    <div class="wrap">
-      <h2 id="pages-title">Yang bisa kamu pelajari</h2>
-
-      <article class="panel feature">
-        <div class="feature__intro">
-          <h3 class="feature__title"><a href="jelajah.html">Jelajah 3D</a></h3>
-          <p>Putar dan perbesar tata surya dalam tiga dimensi. Pilih tanggal antara tahun 1800 dan 2050, jalankan waktu maju atau mundur, lalu ganti ke skala sebenarnya untuk melihat jarak antarplanet tanpa dipadatkan.</p>
-          <p class="muted">Tabel "Dilihat dari Bumi" di sana memperkirakan kapan tiap planet paling mudah diamati pada tanggal yang kamu pilih.</p>
-        </div>
-        <div class="feature__jump" id="feature-jump" hidden>
-          <p class="feature__label" id="jump-title">Buka Jelajah 3D dengan benda terpilih</p>
-          <ul class="chip-list" id="jump-list" aria-labelledby="jump-title"></ul>
-        </div>
-      </article>
-
-      <ul class="pages">
-        <li>
-          <h3><a href="ensiklopedia.html">Ensiklopedia</a></h3>
-          <p>Profil tiap benda dan wilayah tata surya: foto, angka penting, bulan utama, dan misi yang pernah ke sana.</p>
-        </li>
-        <li>
-          <h3><a href="bandingkan.html">Bandingkan</a></h3>
-          <p>Lihat planet berjajar dalam ukuran sebenarnya, bandingkan dua benda pilihanmu, dan urutkan planet menurut gravitasi, suhu, atau sifat lain.</p>
-        </li>
-        <li>
-          <h3><a href="kalkulator.html">Kalkulator</a></h3>
-          <p>Hitung berat badanmu di benda lain, umurmu dalam tahun Mars atau Jupiter, waktu tempuh cahaya, model skala tata surya, dan lama perjalanan ke tiap planet.</p>
-        </li>
-        <li>
-          <h3><a href="kepler.html">Hukum Kepler</a></h3>
-          <p>Ubah kelonjongan orbit, amati planet melaju lebih cepat di dekat Matahari, lalu periksa hubungan periode dan jarak pada grafik hukum ketiga.</p>
-        </li>
-        <li>
-          <h3><a href="bulan.html">Fase Bulan</a></h3>
-          <p>Lihat rupa Bulan pada tanggal dan jam pilihanmu antara tahun 1800 dan 2050, geser umurnya sepanjang satu siklus, dan cari kapan purnama atau Bulan baru berikutnya.</p>
-        </li>
-        <li>
-          <h3><a href="kuis.html">Kuis</a></h3>
-          <p>Soal pilihan ganda per topik dengan penjelasan di setiap jawaban; skor terbaikmu tersimpan di browser ini.</p>
-        </li>
-        <li>
-          <h3><a href="glosarium.html">Glosarium</a></h3>
-          <p>Cari arti istilah seperti perihelion atau hilal, lalu ikuti tautannya ke istilah lain yang berkaitan.</p>
-        </li>
-        <li>
-          <h3><a href="sejarah.html">Sejarah</a></h3>
-          <p>Garis waktu astronomi dari catatan kuno sampai misi antariksa terbaru, bisa disaring per kategori, termasuk tonggak dari Indonesia.</p>
-        </li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="section" aria-label="Cara belajar">
-    <div class="wrap learn">
-      <div>
-        <h2 id="steps-title">Urutan belajar yang disarankan</h2>
-        <ol class="steps" aria-labelledby="steps-title">
-          <li><a href="jelajah.html">Jelajah 3D</a>: lihat susunan tata surya, lalu jalankan waktu dan perhatikan planet dalam beredar jauh lebih cepat daripada planet luar.</li>
-          <li><a href="ensiklopedia.html">Ensiklopedia</a>: baca profil Matahari dan Bumi, kemudian satu planet yang paling membuatmu penasaran.</li>
-          <li><a href="bandingkan.html">Bandingkan</a>: lihat ukuran sebenarnya dan bandingkan planet pilihanmu dengan Bumi.</li>
-          <li><a href="kepler.html">Hukum Kepler</a>: amati orbit yang berbentuk elips dan planet yang melaju lebih cepat saat dekat Matahari.</li>
-          <li><a href="bulan.html">Fase Bulan</a>: cocokkan bentuk Bulan dengan posisinya terhadap Matahari dan Bumi.</li>
-          <li><a href="kalkulator.html">Kalkulator</a>: pakai angka yang sudah kamu baca untuk berlatih menghitung berat, umur, dan waktu tempuh cahaya.</li>
-          <li><a href="kuis.html">Kuis</a>: kerjakan per topik, baca penjelasan untuk tiap jawaban yang salah, lalu ulangi dengan soal lain.</li>
-        </ol>
-        <p class="muted steps-note"><a href="glosarium.html">Glosarium</a> bisa dibuka kapan saja saat kamu bertemu istilah asing, dan <a href="sejarah.html">Sejarah</a> menunjukkan kapan dan oleh siapa penemuan penting dibuat.</p>
-      </div>
-
-      <aside class="panel teacher" aria-labelledby="teacher-title">
-        <h2 id="teacher-title">Untuk guru</h2>
-        <p>Jelajah 3D cocok ditampilkan lewat proyektor: hentikan waktu, minta siswa menebak letak planet sebulan kemudian, lalu jalankan lagi untuk memeriksa. Dengan penggeser umur Bulan di Fase Bulan, kamu bisa menelusuri satu siklus fase penuh di depan kelas.</p>
-        <p>Topik kuis bisa dipilih, jadi kuis cocok untuk mengecek pemahaman di akhir satu pokok bahasan. Skor tersimpan di perangkat masing-masing siswa dan tidak dikirim ke mana pun.</p>
-        <p>Kalkulator bisa dipakai untuk latihan soal: siswa menghitung dulu di kertas, lalu memeriksa hasilnya di sini.</p>
-        <p>Situs ini juga berjalan tanpa internet. Unduh kodenya dari <a href="https://github.com/EEDTAN/Interactive-Solar-System-Education">GitHub</a> sebagai berkas ZIP, ekstrak, lalu buka berkas index.html.</p>
-      </aside>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="data-title">
-    <div class="wrap about">
-      <div>
-        <h2 id="data-title">Tentang data</h2>
-        <p>Data fisik tiap benda terutama berasal dari lembar fakta NASA NSSDCA, dan data bulan-bulan planet dari JPL. Posisi planet dihitung dari elemen orbit perkiraan JPL yang berlaku untuk tahun 1800 sampai 2050; Ceres dan Komet Halley memakai elemen dari JPL Horizons. Foto berasal dari NASA dan mitranya, dengan kredit di bawah setiap gambar.</p>
-        <p id="moons-note" hidden></p>
-        <p class="about__download">
-          <a class="btn" href="data/bodies.csv" download>Unduh data benda (CSV)</a>
-        </p>
-        <p class="small muted">Berkas data/bodies.csv berisi satu baris untuk tiap benda. Satuan tertulis di nama kolom, dan angka memakai titik desimal.</p>
-      </div>
-      <div id="sources-box" hidden>
-        <h3 id="sources-title">Daftar sumber</h3>
-        <ul class="sources" id="sources" aria-labelledby="sources-title"></ul>
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer class="site-footer">
-  <div class="wrap">
-    <p>Data: <a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/">NASA NSSDCA</a> dan <a href="https://ssd.jpl.nasa.gov/">JPL Solar System Dynamics</a>. Foto: NASA, kredit tertulis di setiap gambar.</p>
-    <p><a href="https://github.com/EEDTAN/Interactive-Solar-System-Education">Kode sumber di GitHub</a> · Lisensi MIT</p>
+<div class="glass timebar" id="timebar" role="group" aria-label="Waktu">
+  <button class="round round--solid" id="play" type="button" aria-label="Jeda waktu">
+    <svg class="i-pause" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><rect x="5" y="4" width="3.4" height="12" rx="1" fill="currentColor"/><rect x="11.6" y="4" width="3.4" height="12" rx="1" fill="currentColor"/></svg>
+    <svg class="i-play" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M6 4.2v11.6a.8.8 0 0 0 1.2.7l9.3-5.8a.8.8 0 0 0 0-1.4L7.2 3.5A.8.8 0 0 0 6 4.2Z" fill="currentColor"/></svg>
+  </button>
+  <div class="timebar__text">
+    <span class="timebar__date" id="date">&nbsp;</span>
+    <label class="timebar__speed" for="speed" id="speed-label">&nbsp;</label>
   </div>
-</footer>
+  <input type="range" id="speed" min="0" max="6" step="1" value="2">
+  <button class="text-btn" id="now" type="button">Sekarang</button>
+</div>
 
+<div class="toast glass" id="toast" role="status" aria-live="polite" hidden></div>
+
+<div class="backdrop" id="help-backdrop" hidden></div>
+<section class="glass help" id="help" role="dialog" aria-modal="true" aria-labelledby="help-title" hidden tabindex="-1">
+  <button class="round help__close" id="help-close" type="button" aria-label="Tutup">
+    <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+  <h2 id="help-title">Cara menjelajah</h2>
+  <ul class="help__list">
+    <li><b>Klik atau ketuk</b> planet atau namanya untuk terbang mendekat.</li>
+    <li><b>Seret</b> untuk memutar arah kamera, <b>gulir</b> atau <b>cubit</b> untuk memperbesar.</li>
+    <li><b>Esc</b> atau tombol kiri atas untuk kembali melihat seluruh tata surya.</li>
+    <li>Papan ketik: <kbd>←</kbd> <kbd>→</kbd> pindah benda, <kbd>↑</kbd> <kbd>↓</kbd> putar naik turun, <kbd>Shift</kbd> + <kbd>←</kbd> <kbd>→</kbd> putar ke samping, <kbd>+</kbd> <kbd>−</kbd> perbesar, <kbd>Spasi</kbd> jeda waktu.</li>
+  </ul>
+  <p>Posisi planet dihitung untuk tanggal yang tampil di bawah (elemen orbit JPL, tahun 1800 sampai 2050), dan arah sumbu serta putaran tiap planet mengikuti data IAU. Sisi siang dan malam Bumi sesuai jam sekarang.</p>
+  <p>Ukuran planet sebanding satu sama lain. Matahari diperkecil, dan jarak antarplanet serta jarak Bulan dipadatkan supaya semuanya muat di layar.</p>
+  <p class="help__small">Data: NASA NSSDCA, JPL, IAU. Tekstur: <a href="https://www.solarsystemscope.com/textures/">Solar System Scope</a> (CC BY 4.0), peta Pluto NASA/JHUAPL/SwRI. <a href="https://github.com/EEDTAN/Interactive-Solar-System-Education">Kode sumber di GitHub</a>.</p>
+</section>
+
+<div class="loader" id="loader">
+  <div class="glass loader__box">
+    <p class="loader__title">Menyiapkan tata surya</p>
+    <div class="loader__bar"><span id="loader-fill"></span></div>
+    <p class="loader__text" id="loader-text">Memuat tekstur planet</p>
+  </div>
+</div>
+
+<div class="glass fatal" id="error" role="alert" hidden></div>
+
+<noscript><div class="glass fatal">Halaman ini membutuhkan JavaScript untuk menampilkan tata surya 3D.</div></noscript>
+<script>
+  // Modul JavaScript dan tekstur WebGL diblokir peramban bila berkas dibuka langsung dari disk.
+  if (location.protocol === 'file:') {
+    document.getElementById('loader').hidden = true;
+    var e = document.getElementById('error');
+    e.innerHTML = '<strong>Buka lewat server lokal.</strong> Peramban tidak mengizinkan tampilan 3D dari berkas di disk. ' +
+      'Di folder proyek jalankan <code>python -m http.server 8000</code>, lalu buka <code>http://localhost:8000</code>, ' +
+      'atau buka <a href="https://eedtan.github.io/Interactive-Solar-System-Education/">versi online</a>.';
+    e.hidden = false;
+  }
+</script>
 <script src="js/data.js"></script>
 <script src="js/astro.js"></script>
-<script src="js/common.js"></script>
-<script src="js/beranda.js"></script>
+<script type="module" src="js/app.js"></script>
 </body>
 </html>
