@@ -285,6 +285,14 @@ var SOLAR_DATA = {
      "discovered": null,
      "discoverer": null,
      "retrograde": false,
+     "frame": "ecliptic",
+     "pole_ra_deg": null,
+     "pole_dec_deg": null,
+     "inc_deg": null,
+     "node_deg": null,
+     "argp_deg": null,
+     "mean_anomaly_deg": null,
+     "epoch_jd": null,
      "note": "Satu-satunya satelit alami Bumi dan satelit terbesar kelima di tata surya; gravitasinya menimbulkan pasang surut air laut dan meredam goyangan sumbu rotasi Bumi."
     }
    ]
@@ -413,6 +421,14 @@ var SOLAR_DATA = {
      "discovered": 1877,
      "discoverer": "A. Hall",
      "retrograde": false,
+     "frame": "laplace",
+     "pole_ra_deg": 317.7,
+     "pole_dec_deg": 52.9,
+     "inc_deg": 1.1,
+     "node_deg": 169.2,
+     "argp_deg": 216.3,
+     "mean_anomaly_deg": 189.7,
+     "epoch_jd": 2451545.0,
      "note": "Satelit Mars yang lebih besar (sekitar 27 × 22 × 18 km) ini mengorbit hanya sekitar 6.000 km di atas permukaan, mengelilingi Mars tiga kali sehari, dan perlahan mendekat sehingga dalam sekitar 50 juta tahun akan menabrak Mars atau hancur menjadi cincin."
     },
     {
@@ -423,6 +439,14 @@ var SOLAR_DATA = {
      "discovered": 1877,
      "discoverer": "A. Hall",
      "retrograde": false,
+     "frame": "laplace",
+     "pole_ra_deg": 316.6,
+     "pole_dec_deg": 53.5,
+     "inc_deg": 1.8,
+     "node_deg": 54.3,
+     "argp_deg": 0.0,
+     "mean_anomaly_deg": 205.0,
+     "epoch_jd": 2451545.0,
      "note": "Satelit yang lebih kecil (sekitar 15 × 12 × 11 km) ini mengelilingi Mars sekali dalam sekitar 30 jam, dan permukaannya tampak lebih mulus karena sebagian kawahnya tertimbun regolit."
     }
    ]
@@ -499,6 +523,14 @@ var SOLAR_DATA = {
      "discovered": 1610,
      "discoverer": "Galileo",
      "retrograde": false,
+     "frame": "laplace",
+     "pole_ra_deg": 268.1,
+     "pole_dec_deg": 64.5,
+     "inc_deg": 0.0,
+     "node_deg": 0.0,
+     "argp_deg": 49.1,
+     "mean_anomaly_deg": 330.9,
+     "epoch_jd": 2451545.0,
      "note": "Benda dengan aktivitas gunung api tertinggi di tata surya; sebagian dari ratusan gunung apinya memancurkan lava setinggi puluhan kilometer."
     },
     {
@@ -509,6 +541,14 @@ var SOLAR_DATA = {
      "discovered": 1610,
      "discoverer": "Galileo",
      "retrograde": false,
+     "frame": "laplace",
+     "pole_ra_deg": 268.1,
+     "pole_dec_deg": 64.5,
+     "inc_deg": 0.5,
+     "node_deg": 184.0,
+     "argp_deg": 45.0,
+     "mean_anomaly_deg": 345.4,
+     "epoch_jd": 2451545.0,
      "note": "Di bawah kerak esnya diduga ada lautan air asin yang volumenya sekitar dua kali seluruh air laut di Bumi."
     },
     {
@@ -519,6 +559,14 @@ var SOLAR_DATA = {
      "discovered": 1610,
      "discoverer": "Galileo",
      "retrograde": false,
+     "frame": "laplace",
+     "pole_ra_deg": 268.2,
+     "pole_dec_deg": 64.6,
+     "inc_deg": 0.2,
+     "node_deg": 58.5,
+     "argp_deg": 198.3,
+     "mean_anomaly_deg": 324.8,
+     "epoch_jd": 2451545.0,
      "note": "Bulan terbesar di tata surya, lebih besar daripada Merkurius, dan satu-satunya bulan yang diketahui memiliki medan magnet sendiri."
     },
     {
@@ -529,6 +577,14 @@ var SOLAR_DATA = {
      "discovered": 1610,
      "discoverer": "Galileo",
      "retrograde": false,
+     "frame": "laplace",
+     "pole_ra_deg": 268.7,
+     "pole_dec_deg": 64.8,
+     "inc_deg": 0.3,
+     "node_deg": 309.1,
+     "argp_deg": 43.8,
+     "mean_anomaly_deg": 87.4,
+     "epoch_jd": 2451545.0,
      "note": "Benda dengan kawah terbanyak di tata surya; data wahana Galileo mengisyaratkan adanya lautan asin di bawah permukaannya."
     }
    ]
@@ -605,6 +661,14 @@ var SOLAR_DATA = {
      "discovered": 1789,
      "discoverer": "W. Herschel",
      "retrograde": false,
+     "frame": "laplace",
+     "pole_ra_deg": 40.6,
+     "pole_dec_deg": 83.5,
+     "inc_deg": 1.6,
+     "node_deg": 66.2,
+     "argp_deg": 160.4,
+     "mean_anomaly_deg": 275.3,
+     "epoch_jd": 2451545.0,
      "note": "Kawah Herschel di permukaannya selebar sekitar 130 km, kira-kira sepertiga diameter Mimas."
     },
     {
@@ -615,6 +679,14 @@ var SOLAR_DATA = {
      "discovered": 1789,
      "discoverer": "W. Herschel",
      "retrograde": false,
+     "frame": "laplace",
+     "pole_ra_deg": 40.6,
+     "pole_dec_deg": 83.5,
+     "inc_deg": 0.0,
+     "node_deg": 0.0,
+     "argp_deg": 119.5,
+     "mean_anomaly_deg": 57.0,
+     "epoch_jd": 2451545.0,
      "note": "Pada 2005 Cassini menemukan semburan butiran es dan gas dari retakan di kutub selatannya, yang dipasok lautan global di bawah kerak es."
     },
     {
@@ -625,6 +697,14 @@ var SOLAR_DATA = {
      "discovered": 1684,
      "discoverer": "G.D. Cassini",
      "retrograde": false,
+     "frame": "laplace",
+     "pole_ra_deg": 40.6,
+     "pole_dec_deg": 83.5,
+     "inc_deg": 1.1,
+     "node_deg": 273.0,
+     "argp_deg": 335.3,
+     "mean_anomaly_deg": 0.0,
+     "epoch_jd": 2451545.0,
      "note": "Massa jenisnya hampir sama dengan air karena hampir seluruhnya tersusun dari es air; lembah Ithaca Chasma di permukaannya panjangnya sekitar 2.000 km."
     },
     {
@@ -635,6 +715,14 @@ var SOLAR_DATA = {
      "discovered": 1684,
      "discoverer": "G.D. Cassini",
      "retrograde": false,
+     "frame": "laplace",
+     "pole_ra_deg": 40.6,
+     "pole_dec_deg": 83.5,
+     "inc_deg": 0.0,
+     "node_deg": 0.0,
+     "argp_deg": 116.0,
+     "mean_anomaly_deg": 212.0,
+     "epoch_jd": 2451545.0,
      "note": "Cassini memperlihatkan bahwa garis-garis terang di permukaannya adalah dinding ngarai es, sebagian setinggi ratusan meter."
     },
     {
@@ -645,6 +733,14 @@ var SOLAR_DATA = {
      "discovered": 1672,
      "discoverer": "G.D. Cassini",
      "retrograde": false,
+     "frame": "laplace",
+     "pole_ra_deg": 40.6,
+     "pole_dec_deg": 83.5,
+     "inc_deg": 0.3,
+     "node_deg": 133.7,
+     "argp_deg": 44.3,
+     "mean_anomaly_deg": 31.5,
+     "epoch_jd": 2451545.0,
      "note": "Bulan terbesar kedua Saturnus; Cassini mendeteksi lapisan gas yang sangat tipis berisi oksigen dan karbon dioksida di sekitarnya."
     },
     {
@@ -655,6 +751,14 @@ var SOLAR_DATA = {
      "discovered": 1655,
      "discoverer": "C. Huygens",
      "retrograde": false,
+     "frame": "laplace",
+     "pole_ra_deg": 36.4,
+     "pole_dec_deg": 84.0,
+     "inc_deg": 0.3,
+     "node_deg": 78.6,
+     "argp_deg": 78.3,
+     "mean_anomaly_deg": 11.7,
+     "epoch_jd": 2451545.0,
      "note": "Bulan terbesar Saturnus dan satu-satunya bulan beratmosfer tebal; permukaannya memiliki danau dan laut metana serta etana cair."
     },
     {
@@ -665,6 +769,14 @@ var SOLAR_DATA = {
      "discovered": 1671,
      "discoverer": "G.D. Cassini",
      "retrograde": false,
+     "frame": "laplace",
+     "pole_ra_deg": 288.7,
+     "pole_dec_deg": 78.9,
+     "inc_deg": 7.6,
+     "node_deg": 86.5,
+     "argp_deg": 254.5,
+     "mean_anomaly_deg": 74.8,
+     "epoch_jd": 2451545.0,
      "note": "Sisi depannya segelap batu bara, sisi belakangnya jauh lebih terang, dan deretan gunung setinggi sekitar 10 km melingkari khatulistiwanya."
     }
    ]
@@ -741,6 +853,14 @@ var SOLAR_DATA = {
      "discovered": 1948,
      "discoverer": "G. Kuiper",
      "retrograde": false,
+     "frame": "equatorial",
+     "pole_ra_deg": 77.311,
+     "pole_dec_deg": 15.175,
+     "inc_deg": 4.4,
+     "node_deg": 100.9,
+     "argp_deg": 154.8,
+     "mean_anomaly_deg": 73.0,
+     "epoch_jd": 2451545.0,
      "note": "Permukaannya tampak seperti tambal sulam, dengan ngarai patahan yang kedalamannya bisa mencapai 12 kali Grand Canyon."
     },
     {
@@ -751,6 +871,14 @@ var SOLAR_DATA = {
      "discovered": 1851,
      "discoverer": "W. Lassell",
      "retrograde": false,
+     "frame": "equatorial",
+     "pole_ra_deg": 77.311,
+     "pole_dec_deg": 15.175,
+     "inc_deg": 0.0,
+     "node_deg": 0.0,
+     "argp_deg": 9.6,
+     "mean_anomaly_deg": 193.5,
+     "epoch_jd": 2451545.0,
      "note": "Permukaannya paling terang di antara lima bulan besar Uranus dan tampak paling muda di antara bulan-bulan Uranus."
     },
     {
@@ -761,6 +889,14 @@ var SOLAR_DATA = {
      "discovered": 1851,
      "discoverer": "W. Lassell",
      "retrograde": false,
+     "frame": "equatorial",
+     "pole_ra_deg": 77.311,
+     "pole_dec_deg": 15.175,
+     "inc_deg": 0.1,
+     "node_deg": 174.8,
+     "argp_deg": 183.4,
+     "mean_anomaly_deg": 253.0,
+     "epoch_jd": 2451545.0,
      "note": "Bulan besar Uranus yang paling gelap; citra Voyager 2 memperlihatkan cincin terang berdiameter sekitar 140 km di permukaannya."
     },
     {
@@ -771,6 +907,14 @@ var SOLAR_DATA = {
      "discovered": 1787,
      "discoverer": "W. Herschel",
      "retrograde": false,
+     "frame": "equatorial",
+     "pole_ra_deg": 77.311,
+     "pole_dec_deg": 15.175,
+     "inc_deg": 0.1,
+     "node_deg": 29.5,
+     "argp_deg": 184.0,
+     "mean_anomaly_deg": 68.1,
+     "epoch_jd": 2451545.0,
      "note": "Bulan terbesar Uranus; sebagian lembah patahan di permukaannya panjangnya sekitar 1.600 km, hampir sama dengan diameter Titania sendiri."
     },
     {
@@ -781,6 +925,14 @@ var SOLAR_DATA = {
      "discovered": 1787,
      "discoverer": "W. Herschel",
      "retrograde": false,
+     "frame": "equatorial",
+     "pole_ra_deg": 77.311,
+     "pole_dec_deg": 15.175,
+     "inc_deg": 0.1,
+     "node_deg": 76.8,
+     "argp_deg": 132.2,
+     "mean_anomaly_deg": 143.6,
+     "epoch_jd": 2451545.0,
      "note": "Bulan terbesar kedua Uranus; permukaannya penuh kawah dan memiliki setidaknya satu gunung setinggi sekitar 6 km."
     }
    ]
@@ -857,6 +1009,14 @@ var SOLAR_DATA = {
      "discovered": 1846,
      "discoverer": "W. Lassell",
      "retrograde": true,
+     "frame": "laplace",
+     "pole_ra_deg": 299.8,
+     "pole_dec_deg": 43.1,
+     "inc_deg": 157.3,
+     "node_deg": 178.1,
+     "argp_deg": 0.0,
+     "mean_anomaly_deg": 63.0,
+     "epoch_jd": 2451545.0,
      "note": "Satu-satunya bulan besar di tata surya yang mengorbit berlawanan arah rotasi planetnya; Voyager 2 menemukan geiser aktif di permukaannya yang bersuhu sekitar -235 °C."
     },
     {
@@ -867,6 +1027,14 @@ var SOLAR_DATA = {
      "discovered": 1949,
      "discoverer": "G.P. Kuiper",
      "retrograde": false,
+     "frame": null,
+     "pole_ra_deg": null,
+     "pole_dec_deg": null,
+     "inc_deg": null,
+     "node_deg": null,
+     "argp_deg": null,
+     "mean_anomaly_deg": null,
+     "epoch_jd": null,
      "note": "Orbitnya termasuk yang paling lonjong di antara bulan-bulan di tata surya, dengan satu putaran mengelilingi Neptunus selama sekitar 360 hari."
     }
    ]
@@ -943,6 +1111,14 @@ var SOLAR_DATA = {
      "discovered": 1978,
      "discoverer": "J.W. Christy",
      "retrograde": false,
+     "frame": "equatorial",
+     "pole_ra_deg": 132.993,
+     "pole_dec_deg": -6.163,
+     "inc_deg": 0.0,
+     "node_deg": 0.0,
+     "argp_deg": 0.0,
+     "mean_anomaly_deg": 304.1,
+     "epoch_jd": 2451545.0,
      "note": "Bulan terbesar Pluto, berdiameter sekitar 1.200 km atau kira-kira setengah Pluto; ditemukan James Christy dan Robert Harrington pada 1978."
     }
    ]

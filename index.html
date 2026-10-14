@@ -25,23 +25,24 @@
     </span>
     <span id="home-text">Interactive Solar System</span>
   </button>
+  <div class="glass timebar" id="timebar" role="group" aria-label="Waktu">
+    <button class="round round--solid" id="play" type="button" aria-label="Jeda waktu">
+      <svg class="i-pause" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><rect x="5" y="4" width="3.4" height="12" rx="1" fill="currentColor"/><rect x="11.6" y="4" width="3.4" height="12" rx="1" fill="currentColor"/></svg>
+      <svg class="i-play" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M6 4.2v11.6a.8.8 0 0 0 1.2.7l9.3-5.8a.8.8 0 0 0 0-1.4L7.2 3.5A.8.8 0 0 0 6 4.2Z" fill="currentColor"/></svg>
+    </button>
+    <div class="timebar__text">
+      <span class="timebar__date" id="date">&nbsp;</span>
+      <label class="timebar__speed" for="speed" id="speed-label">&nbsp;</label>
+    </div>
+    <input type="range" id="speed" min="0" max="6" step="1" value="2">
+    <button class="text-btn" id="now" type="button">Sekarang</button>
+  </div>
   <button class="glass round" id="help-btn" type="button" aria-label="Cara memakai dan sumber" aria-expanded="false" aria-controls="help">?</button>
 </header>
 
 <aside class="glass card" id="card" hidden aria-labelledby="card-title"></aside>
 
-<div class="glass timebar" id="timebar" role="group" aria-label="Waktu">
-  <button class="round round--solid" id="play" type="button" aria-label="Jeda waktu">
-    <svg class="i-pause" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><rect x="5" y="4" width="3.4" height="12" rx="1" fill="currentColor"/><rect x="11.6" y="4" width="3.4" height="12" rx="1" fill="currentColor"/></svg>
-    <svg class="i-play" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M6 4.2v11.6a.8.8 0 0 0 1.2.7l9.3-5.8a.8.8 0 0 0 0-1.4L7.2 3.5A.8.8 0 0 0 6 4.2Z" fill="currentColor"/></svg>
-  </button>
-  <div class="timebar__text">
-    <span class="timebar__date" id="date">&nbsp;</span>
-    <label class="timebar__speed" for="speed" id="speed-label">&nbsp;</label>
-  </div>
-  <input type="range" id="speed" min="0" max="6" step="1" value="2">
-  <button class="text-btn" id="now" type="button">Sekarang</button>
-</div>
+<nav class="glass dock" id="dock" aria-label="Pilih benda langit"></nav>
 
 <div class="toast glass" id="toast" role="status" aria-live="polite" hidden></div>
 
@@ -52,14 +53,14 @@
   </button>
   <h2 id="help-title">Cara menjelajah</h2>
   <ul class="help__list">
-    <li><b>Klik atau ketuk</b> planet atau namanya untuk terbang mendekat.</li>
-    <li><b>Seret</b> untuk memutar arah kamera, <b>gulir</b> atau <b>cubit</b> untuk memperbesar.</li>
+    <li><b>Klik atau ketuk</b> planet, namanya, atau gambarnya di deretan bawah untuk terbang mendekat. Satelit sebuah planet bisa dipilih dari kartu infonya.</li>
+    <li><b>Seret</b> untuk memutar arah kamera, <b>gulir</b> atau <b>cubit</b> untuk memperbesar. Gulir di atas planet atau satelit mana pun untuk mendekatinya tanpa memilihnya dulu.</li>
     <li><b>Esc</b> atau tombol kiri atas untuk kembali melihat seluruh tata surya.</li>
     <li>Papan ketik: <kbd>←</kbd> <kbd>→</kbd> pindah benda, <kbd>↑</kbd> <kbd>↓</kbd> putar naik turun, <kbd>Shift</kbd> + <kbd>←</kbd> <kbd>→</kbd> putar ke samping, <kbd>+</kbd> <kbd>−</kbd> perbesar, <kbd>Spasi</kbd> jeda waktu.</li>
   </ul>
-  <p>Posisi planet dihitung untuk tanggal yang tampil di bawah (elemen orbit JPL, tahun 1800 sampai 2050), dan arah sumbu serta putaran tiap planet mengikuti data IAU. Sisi siang dan malam Bumi sesuai jam sekarang.</p>
-  <p>Ukuran planet sebanding satu sama lain. Matahari diperkecil, dan jarak antarplanet serta jarak Bulan dipadatkan supaya semuanya muat di layar.</p>
-  <p class="help__small">Data: NASA NSSDCA, JPL, IAU. Tekstur: <a href="https://www.solarsystemscope.com/textures/">Solar System Scope</a> (CC BY 4.0), peta Pluto NASA/JHUAPL/SwRI. <a href="https://github.com/EEDTAN/Interactive-Solar-System-Education">Kode sumber di GitHub</a>.</p>
+  <p>Posisi planet dan satelit dihitung untuk tanggal yang tampil di atas (elemen orbit JPL, tahun 1800 sampai 2050), dan arah sumbu serta putaran tiap benda mengikuti data IAU. Sisi siang dan malam Bumi sesuai jam yang tampil.</p>
+  <p>Ukuran planet dan satelit sebanding satu sama lain. Matahari diperkecil, dan jarak antarplanet serta jarak satelit ke planetnya dipadatkan supaya semuanya muat di layar.</p>
+  <p class="help__small">Data: NASA NSSDCA, JPL, IAU. Tekstur: <a href="https://www.solarsystemscope.com/textures/">Solar System Scope</a> (CC BY 4.0), peta Pluto NASA/JHUAPL/SwRI, peta satelit USGS Astrogeology dan NASA/JPL (Deimos: P. Stooke). <a href="https://github.com/EEDTAN/Interactive-Solar-System-Education">Kode sumber di GitHub</a>.</p>
 </section>
 
 <div class="loader" id="loader">

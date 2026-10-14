@@ -156,10 +156,17 @@ def load_moons(bodies):
                 "discovered": number(row["discovered"]),
                 "discoverer": row["discoverer"] or None,
                 "retrograde": row["retrograde"] == "yes",
+                # Elemen orbit rata-rata JPL (epoch J2000) terhadap bidang Laplace atau ekuator planet.
+                "frame": row["frame"] or None,
             }
+            for key in ("pole_ra_deg", "pole_dec_deg", "inc_deg", "node_deg", "argp_deg", "mean_anomaly_deg", "epoch_jd"):
+                entry[key] = number(row[key])
         except ValueError as exc:
             errors.append(f"moons.csv: {row['name']}: {exc}")
             continue
+        if entry["frame"] in ("laplace", "equatorial") and any(
+                entry[k] is None for k in ("pole_ra_deg", "pole_dec_deg", "inc_deg", "node_deg", "argp_deg", "mean_anomaly_deg", "epoch_jd", "period_days")):
+            errors.append(f"moons.csv: {row['name']}: elemen orbit belum lengkap")
         if row["parent"] not in bodies:
             errors.append(f"moons.csv: {row['name']}: induk '{row['parent']}' tidak ada di bodies.csv")
         if any(m["name"].lower() == entry["name"].lower() for m in moons.get(row["parent"], [])):
