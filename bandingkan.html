@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bandingkan benda langit | Interactive Solar System</title>
+<meta name="description" content="Bandingkan ukuran sebenarnya planet-planet serta gravitasi, jarak, suhu, dan jumlah bulannya lewat gambar berskala, grafik, dan tabel.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/bandingkan.css">
+<script>document.documentElement.className = 'js';</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Langsung ke isi</a>
+<header class="site-header">
+  <div class="wrap site-header__bar">
+    <a class="brand" href="index.html">Interactive Solar System</a>
+    <button class="btn btn--quiet nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav class="site-nav" id="site-nav" aria-label="Navigasi utama">
+      <ul>
+        <li><a href="index.html">Beranda</a></li>
+        <li><a href="jelajah.html">Jelajah 3D</a></li>
+        <li><a href="ensiklopedia.html">Ensiklopedia</a></li>
+        <li><a href="bandingkan.html" aria-current="page">Bandingkan</a></li>
+        <li><a href="kalkulator.html">Kalkulator</a></li>
+        <li><a href="kepler.html">Hukum Kepler</a></li>
+        <li><a href="bulan.html">Fase Bulan</a></li>
+        <li><a href="kuis.html">Kuis</a></li>
+        <li><a href="glosarium.html">Glosarium</a></li>
+        <li><a href="sejarah.html">Sejarah</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <noscript><div class="wrap"><p class="notice">Halaman ini membutuhkan JavaScript agar bisa berjalan.</p></div></noscript>
+
+  <div class="wrap page-head">
+    <h1>Bandingkan benda langit</h1>
+    <p class="lead">Di sini planet-planet digambar dan dibandingkan dengan skala yang sama, jadi kamu bisa melihat seberapa besar bedanya. Semua angka berasal dari lembar data NASA dan JPL.</p>
+  </div>
+
+  <section class="section" id="ukuran" aria-labelledby="ukuran-judul">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="ukuran-judul">Ukuran sebenarnya</h2>
+        <p>Semua benda di gambar ini memakai skala yang sama, termasuk Matahari di tepi kiri. Yang berskala hanya ukurannya; jarak antarplanet tidak.</p>
+      </div>
+      <div class="row lineup-bar">
+        <label class="check"><input type="checkbox" id="lineup-extra"> Sertakan Bulan, Ceres, dan Pluto</label>
+        <p class="small muted" id="lineup-hint" hidden>Geser gambar ke samping untuk melihat semuanya.</p>
+      </div>
+      <div class="lineup" id="lineup-scroll" role="region" aria-label="Deretan ukuran planet">
+        <canvas id="lineup-canvas" role="img" aria-label="Deretan ukuran planet"></canvas>
+      </div>
+      <ul class="visually-hidden" id="lineup-list"></ul>
+      <p class="small muted lineup-note" id="lineup-note"></p>
+    </div>
+  </section>
+
+  <section class="section" id="dua-benda" aria-labelledby="dua-judul">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="dua-judul">Bandingkan dua benda</h2>
+        <p>Pilih dua benda untuk melihat ukuran keduanya berdampingan dan perbandingan angka-angkanya.</p>
+      </div>
+      <div id="compare-msg"></div>
+      <div class="compare">
+        <div>
+          <div class="compare__pick">
+            <div class="field">
+              <label for="pick-a">Benda pertama</label>
+              <select id="pick-a"></select>
+            </div>
+            <button class="btn compare__swap" id="swap" type="button" aria-label="Tukar kedua benda">Tukar</button>
+            <div class="field">
+              <label for="pick-b">Dibandingkan dengan</label>
+              <select id="pick-b"></select>
+            </div>
+          </div>
+          <div class="canvas-box compare__box">
+            <canvas id="compare-canvas" role="img" aria-label="Dua benda yang dibandingkan"></canvas>
+          </div>
+          <p class="small muted compare__caption" id="compare-caption"></p>
+        </div>
+        <div>
+          <ul class="compare__list" id="compare-list" aria-live="polite"></ul>
+          <div class="small muted compare__notes" id="compare-notes"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="grafik" aria-labelledby="grafik-judul">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="grafik-judul">Grafik</h2>
+        <p>Pilih besaran untuk melihat semua planet sekaligus. Klik atau ketuk sebuah batang untuk menyorot planetnya.</p>
+      </div>
+      <div class="chart-controls">
+        <div class="field chart-controls__prop">
+          <label for="chart-prop">Besaran</label>
+          <select id="chart-prop"></select>
+        </div>
+        <div class="field">
+          <span class="field__label" id="sort-label">Urutkan</span>
+          <div class="segmented" role="group" aria-labelledby="sort-label">
+            <button type="button" data-sort="distance" aria-pressed="true">Dari Matahari</button>
+            <button type="button" data-sort="value" aria-pressed="false">Dari nilai terbesar</button>
+          </div>
+        </div>
+        <label class="check"><input type="checkbox" id="chart-dwarf"> Sertakan planet kerdil</label>
+        <label class="check"><input type="checkbox" id="chart-log" aria-describedby="log-hint"> Skala logaritmik</label>
+      </div>
+      <p class="field__hint chart-hint" id="log-hint"></p>
+      <figure class="panel chart" id="chart">
+        <figcaption class="chart__head">
+          <h3 id="chart-title" aria-live="polite"></h3>
+          <p class="small muted" id="chart-note"></p>
+        </figcaption>
+        <div class="chart__rows" id="chart-rows" role="group" aria-labelledby="chart-title"></div>
+        <div class="chart__axis" aria-hidden="true"><span></span><span class="chart__ticks" id="chart-ticks"></span></div>
+        <p class="small muted chart__unit" id="chart-unit"></p>
+        <p class="small chart__lognote" id="chart-lognote" hidden></p>
+        <div class="chart__tip" id="chart-tip" aria-hidden="true" hidden></div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section" id="tabel" aria-labelledby="tabel-judul">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="tabel-judul">Tabel data</h2>
+        <p>Klik judul kolom untuk mengurutkan, lalu klik sekali lagi untuk membalik urutannya. Geser tabel ke samping untuk melihat kolom lainnya.</p>
+      </div>
+      <div class="table-wrap" tabindex="0" role="region" aria-labelledby="tabel-caption">
+        <table class="data-table" id="data-table">
+          <caption id="tabel-caption">Data utama semua benda di situs ini. Urutan awalnya dari Matahari ke luar.</caption>
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="visually-hidden" id="sort-status" aria-live="polite"></p>
+      <div class="row table-foot">
+        <a class="btn" href="data/bodies.csv" download>Unduh data (bodies.csv)</a>
+        <p class="small muted">Nama kolom di berkas ini berbahasa Inggris, dan angkanya memakai titik sebagai tanda desimal.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Data: <a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/">NASA NSSDCA</a> dan <a href="https://ssd.jpl.nasa.gov/">JPL Solar System Dynamics</a>. Foto: NASA, kredit tertulis di setiap gambar.</p>
+    <p><a href="https://github.com/EEDTAN/Interactive-Solar-System-Education">Kode sumber di GitHub</a> · Lisensi MIT</p>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/astro.js"></script>
+<script src="js/common.js"></script>
+<script src="js/bandingkan.js"></script>
+</body>
+</html>

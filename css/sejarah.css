@@ -1,0 +1,130 @@
+/* sejarah.css: aturan khusus halaman Sejarah (sisanya dari style.css). */
+
+.history {
+  padding-bottom: var(--s-6);
+}
+
+.history__filter .field__label {
+  margin: 0 0 var(--s-2);
+}
+
+.chip__count {
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.history__count {
+  margin: var(--s-3) 0 var(--s-6);
+}
+
+.history__empty {
+  max-width: 40rem;
+}
+
+.history__empty p {
+  margin-bottom: var(--s-3);
+}
+
+/* ---------- Linimasa ---------- */
+
+.timeline {
+  --dot: 11px;
+  --rail: 5px; /* jarak garis dari kiri, ponsel */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 0.75rem;
+  bottom: var(--s-6);
+  left: var(--rail);
+  width: 1px;
+  background: var(--line-strong);
+}
+
+.tl-item {
+  position: relative;
+  padding: 0 0 var(--s-6) var(--s-6);
+}
+
+.tl-item::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--rail) - var(--dot) / 2 + 0.5px);
+  top: 0.6rem;
+  width: var(--dot);
+  height: var(--dot);
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 2px solid var(--text-muted);
+  background: var(--bg);
+}
+
+.tl-when {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 var(--s-3);
+}
+
+.tl-year {
+  font-family: var(--font-head);
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.2;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.tl-date {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.tl-cat {
+  margin: var(--s-1) 0 var(--s-1);
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.tl-title {
+  font-size: 1.25rem;
+  margin: 0 0 var(--s-2);
+}
+
+.tl-detail {
+  margin: 0;
+  max-width: 68ch;
+}
+
+/* Tahun di kolom kiri, garis di tengah, isi di kanan. */
+@media (min-width: 760px) {
+  .timeline {
+    --year-col: 10.5rem;
+    --rail: calc(var(--year-col) + var(--s-6) / 2);
+  }
+
+  .tl-item {
+    display: grid;
+    grid-template-columns: var(--year-col) minmax(0, 1fr);
+    column-gap: var(--s-6);
+    padding-left: 0;
+  }
+
+  .tl-when {
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .tl-year {
+    font-size: 1.75rem;
+  }
+
+  .tl-cat {
+    margin-top: 0.45rem;
+  }
+}

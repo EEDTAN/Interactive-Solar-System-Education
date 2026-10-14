@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jelajah 3D | Interactive Solar System</title>
+<meta name="description" content="Penjelajah tata surya tiga dimensi: posisi planet, Pluto, Ceres, dan Komet Halley pada tanggal pilihanmu antara tahun 1800 dan 2050.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/jelajah.css">
+<script>document.documentElement.className = 'js';</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Langsung ke isi</a>
+<header class="site-header">
+  <div class="wrap site-header__bar">
+    <a class="brand" href="index.html">Interactive Solar System</a>
+    <button class="btn btn--quiet nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav class="site-nav" id="site-nav" aria-label="Navigasi utama">
+      <ul>
+        <li><a href="index.html">Beranda</a></li>
+        <li><a href="jelajah.html" aria-current="page">Jelajah 3D</a></li>
+        <li><a href="ensiklopedia.html">Ensiklopedia</a></li>
+        <li><a href="bandingkan.html">Bandingkan</a></li>
+        <li><a href="kalkulator.html">Kalkulator</a></li>
+        <li><a href="kepler.html">Hukum Kepler</a></li>
+        <li><a href="bulan.html">Fase Bulan</a></li>
+        <li><a href="kuis.html">Kuis</a></li>
+        <li><a href="glosarium.html">Glosarium</a></li>
+        <li><a href="sejarah.html">Sejarah</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <noscript><div class="wrap"><p class="notice">Halaman ini membutuhkan JavaScript agar bisa berjalan.</p></div></noscript>
+  <div class="wrap jelajah">
+    <div class="jelajah__head">
+      <h1>Jelajah 3D</h1>
+      <p class="lead">Posisi delapan planet, Pluto, Ceres, dan Komet Halley pada tanggal yang kamu pilih, dihitung dari elemen orbit JPL.</p>
+    </div>
+
+    <div class="jelajah__view">
+      <div class="canvas-box jelajah__canvas-box">
+        <canvas id="orrery" tabindex="0" role="img" aria-label="Tampilan tiga dimensi tata surya" aria-describedby="view-hint"></canvas>
+      </div>
+      <p class="small muted jelajah__hint" id="view-hint">Seret untuk memutar pandangan, gulir atau cubit untuk mengubah perbesaran. Klik atau ketuk benda untuk memilihnya, dua kali untuk mendekat. Saat kanvas aktif: tombol panah memutar, + dan - mengubah perbesaran, Spasi menjalankan atau menjeda waktu, Esc menghapus pilihan.</p>
+    </div>
+
+    <div class="jelajah__panel">
+      <section class="jelajah__block" aria-labelledby="time-title">
+        <h2 id="time-title">Waktu</h2>
+        <p class="jelajah__date num" id="date-text">&nbsp;</p>
+        <div class="field">
+          <label for="date-input">Pilih tanggal</label>
+          <input type="date" id="date-input" min="1800-01-01" max="2050-12-31" aria-describedby="date-hint date-error">
+          <span class="field__hint" id="date-hint">Antara 1 Januari 1800 dan 31 Desember 2050.</span>
+          <span class="field__error" id="date-error"></span>
+        </div>
+        <div class="row jelajah__buttons">
+          <button class="btn btn--primary" type="button" id="play">Jalankan</button>
+          <button class="btn" type="button" id="today">Hari ini</button>
+        </div>
+        <div class="jelajah__group">
+          <span class="field__label" id="speed-label">Kecepatan (per detik)</span>
+          <div class="segmented" role="group" aria-labelledby="speed-label" id="speed">
+            <button type="button" data-days="1" aria-pressed="true">1 hari</button>
+            <button type="button" data-days="7" aria-pressed="false">1 minggu</button>
+            <button type="button" data-days="30.436875" aria-pressed="false">1 bulan</button>
+            <button type="button" data-days="365.2425" aria-pressed="false">1 tahun</button>
+          </div>
+        </div>
+        <div class="jelajah__group">
+          <span class="field__label" id="dir-label">Arah waktu</span>
+          <div class="segmented" role="group" aria-labelledby="dir-label" id="direction">
+            <button type="button" data-dir="1" aria-pressed="true">Maju</button>
+            <button type="button" data-dir="-1" aria-pressed="false">Mundur</button>
+          </div>
+        </div>
+        <p class="small jelajah__status" id="time-status" aria-live="polite"></p>
+      </section>
+
+      <section class="jelajah__block" aria-labelledby="view-title">
+        <h2 id="view-title">Tampilan</h2>
+        <div class="row jelajah__buttons">
+          <button class="btn" type="button" id="center-sun">Pusatkan ke Matahari</button>
+          <button class="btn" type="button" id="top-view">Lihat dari atas</button>
+        </div>
+        <fieldset class="jelajah__toggles">
+          <legend class="visually-hidden">Tampilkan di kanvas</legend>
+          <label class="check"><input type="checkbox" data-opt="orbits" checked> Orbit</label>
+          <label class="check"><input type="checkbox" data-opt="labels" checked> Nama</label>
+          <label class="check"><input type="checkbox" data-opt="asteroids" checked> Sabuk asteroid</label>
+          <label class="check"><input type="checkbox" data-opt="kuiper" checked> Sabuk Kuiper</label>
+          <label class="check"><input type="checkbox" data-opt="halley" checked> Komet Halley</label>
+          <label class="check"><input type="checkbox" data-opt="moon" checked> Bulan</label>
+          <label class="check"><input type="checkbox" id="true-scale"> Skala sebenarnya</label>
+        </fieldset>
+        <div class="small muted jelajah__note">
+          <p>Skala dipadatkan: jarak dari Matahari digambar sebanding dengan akar kuadrat jarak sebenarnya supaya kedelapan planet muat di kanvas, dan benda digambar jauh lebih besar dari aslinya agar terlihat. Skala sebenarnya: jarak dan ukuran sebanding dengan aslinya, jadi planet tinggal titik (minimal 1 piksel) sampai kamu memperbesar tampilan.</p>
+          <p>Jarak Bulan dari Bumi dilebihkan agar Bulan terlihat terpisah. Titik sabuk asteroid dan Sabuk Kuiper adalah ilustrasi, bukan posisi asteroid sebenarnya. Ekor Komet Halley juga ilustrasi: digambar saat komet berjarak kurang dari 4 SA dari Matahari, makin panjang saat komet makin dekat, dan selalu mengarah menjauhi Matahari.</p>
+        </div>
+      </section>
+
+      <section class="jelajah__block" aria-labelledby="bodies-title">
+        <h2 id="bodies-title">Benda</h2>
+        <ul class="chip-list" id="body-chips" aria-label="Pilih benda untuk dipusatkan"></ul>
+        <div class="jelajah__card" id="body-card"></div>
+      </section>
+
+      <details class="jelajah__block jelajah__sky" id="sky">
+        <summary>Dilihat dari Bumi pada tanggal ini</summary>
+        <p class="small muted" id="sky-caption">Planet dilihat dari Bumi pada <span id="sky-date"></span></p>
+        <div class="table-wrap" tabindex="0" role="region" aria-labelledby="sky-caption">
+          <table class="data-table" aria-labelledby="sky-caption">
+            <thead>
+              <tr>
+                <th scope="col">Planet</th>
+                <th scope="col" class="n">Jarak</th>
+                <th scope="col" class="n">Waktu tempuh cahaya</th>
+                <th scope="col" class="n">Elongasi</th>
+                <th scope="col">Perkiraan waktu terbaik melihat</th>
+              </tr>
+            </thead>
+            <tbody id="sky-body"></tbody>
+          </table>
+        </div>
+        <p class="small muted">Elongasi adalah sudut antara planet dan Matahari dilihat dari Bumi; timur berarti planet berada di sebelah timur Matahari di langit. Kolom terakhir hanya perkiraan kasar dari elongasi itu. Lokasimu, tinggi planet di atas cakrawala, kecerahan planet, dan cuaca belum diperhitungkan.</p>
+      </details>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Data: <a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/">NASA NSSDCA</a> dan <a href="https://ssd.jpl.nasa.gov/">JPL Solar System Dynamics</a>. Foto: NASA, kredit tertulis di setiap gambar.</p>
+    <p><a href="https://github.com/EEDTAN/Interactive-Solar-System-Education">Kode sumber di GitHub</a> · Lisensi MIT</p>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/astro.js"></script>
+<script src="js/common.js"></script>
+<script src="js/orrery.js"></script>
+<script src="js/jelajah.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+name,parent,radius_km,distance_km,period_days,discovered,discoverer,retrograde
+Bulan,earth,1737.4,384400,27.322,,,no
+Phobos,mars,11.08,9375,0.3187,1877,A. Hall,no
+Deimos,mars,6.2,23457,1.2625,1877,A. Hall,no
+Io,jupiter,1821.49,421800,1.769138,1610,Galileo,no
+Europa,jupiter,1560.8,671100,3.551181,1610,Galileo,no
+Ganymede,jupiter,2631.2,1070400,7.154553,1610,Galileo,no
+Callisto,jupiter,2410.3,1882700,16.689017,1610,Galileo,no
+Mimas,saturn,198.2,186000,0.942422,1789,W. Herschel,no
+Enceladus,saturn,252.1,238400,1.370218,1789,W. Herschel,no
+Tethys,saturn,531.1,295000,1.887802,1684,G.D. Cassini,no
+Dione,saturn,561.4,377700,2.736916,1684,G.D. Cassini,no
+Rhea,saturn,763.5,527200,4.517503,1672,G.D. Cassini,no
+Titan,saturn,2574.76,1221900,15.945448,1655,C. Huygens,no
+Iapetus,saturn,734.3,3561700,79.331002,1671,G.D. Cassini,no
+Miranda,uranus,235.8,129846,1.413479,1948,G. Kuiper,no
+Ariel,uranus,578.9,190929,2.520379,1851,W. Lassell,no
+Umbriel,uranus,584.7,265986,4.144177,1851,W. Lassell,no
+Titania,uranus,788.9,436298,8.705869,1787,W. Herschel,no
+Oberon,uranus,761.4,583511,13.463237,1787,W. Herschel,no
+Triton,neptune,1352.6,354800,5.876994,1846,W. Lassell,yes
+Nereid,neptune,170,5513900,360.133039,1949,G.P. Kuiper,no
+Charon,pluto,606,19600,6.387222,1978,J.W. Christy,no
+Dysnomia,eris,350,37273,15.785899,2005,M.E. Brown dkk.,no

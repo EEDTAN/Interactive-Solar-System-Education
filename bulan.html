@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fase Bulan | Interactive Solar System</title>
+<meta name="description" content="Lihat bentuk Bulan pada tanggal dan jam pilihanmu, letaknya di orbit, jadwal fase utama berikutnya, dan kalender fase tiap bulan.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/bulan.css">
+<script>document.documentElement.className = 'js';</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Langsung ke isi</a>
+<header class="site-header">
+  <div class="wrap site-header__bar">
+    <a class="brand" href="index.html">Interactive Solar System</a>
+    <button class="btn btn--quiet nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav class="site-nav" id="site-nav" aria-label="Navigasi utama">
+      <ul>
+        <li><a href="index.html">Beranda</a></li>
+        <li><a href="jelajah.html">Jelajah 3D</a></li>
+        <li><a href="ensiklopedia.html">Ensiklopedia</a></li>
+        <li><a href="bandingkan.html">Bandingkan</a></li>
+        <li><a href="kalkulator.html">Kalkulator</a></li>
+        <li><a href="kepler.html">Hukum Kepler</a></li>
+        <li><a href="bulan.html" aria-current="page">Fase Bulan</a></li>
+        <li><a href="kuis.html">Kuis</a></li>
+        <li><a href="glosarium.html">Glosarium</a></li>
+        <li><a href="sejarah.html">Sejarah</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <noscript><div class="wrap"><p class="notice">Halaman ini membutuhkan JavaScript agar bisa berjalan.</p></div></noscript>
+
+  <div class="wrap">
+    <header class="page-head">
+      <h1>Fase Bulan</h1>
+      <p class="lead">Pilih tanggal dan jam untuk melihat bentuk Bulan saat itu, atau geser umur Bulan untuk menelusuri satu siklus dari Bulan baru sampai Bulan baru berikutnya.</p>
+    </header>
+
+    <section class="section viewer" id="viewer" aria-labelledby="phase-name">
+      <div class="viewer__head">
+        <h2 id="phase-name">Menghitung fase Bulan…</h2>
+        <p class="muted num" id="when"></p>
+      </div>
+
+      <div class="viewer__stage">
+        <figure class="viewer__fig viewer__fig--moon">
+          <div class="canvas-box moon-box">
+            <canvas id="moon-canvas" role="img" aria-label="Gambar Bulan sedang dihitung."></canvas>
+          </div>
+          <figcaption class="small muted">Arah pandang dari belahan Bumi utara: saat Bulan membesar, sisi terangnya di kanan. Di Indonesia sabit sering tampak telentang, baca <a href="#sabit">Sabit di langit Indonesia</a>.</figcaption>
+        </figure>
+
+        <div class="scrub">
+          <div class="scrub__head">
+            <label for="age">Umur Bulan</label>
+            <output class="num" id="age-out" for="age"></output>
+          </div>
+          <input type="range" id="age" min="0" max="29.5" step="0.1" value="0" aria-describedby="age-hint">
+          <div class="scrub__ticks" id="age-ticks" aria-hidden="true"></div>
+          <p class="field__hint" id="age-hint"></p>
+        </div>
+
+        <figure class="viewer__fig viewer__fig--orbit">
+          <div class="canvas-box orbit-box">
+            <canvas id="orbit-canvas" role="img" aria-label="Diagram posisi Bulan sedang dihitung."></canvas>
+          </div>
+          <figcaption class="small muted">Dilihat dari atas kutub utara, tidak berskala. Bulan beredar berlawanan arah jarum jam, dan separuh yang menghadap Matahari selalu terang.</figcaption>
+          <ol class="visually-hidden" id="orbit-list"></ol>
+        </figure>
+      </div>
+
+      <dl class="plates viewer__facts">
+        <div><dt>Bagian yang tersinari</dt><dd id="v-illum">…</dd></div>
+        <div><dt>Umur sejak Bulan baru</dt><dd id="v-age">…</dd></div>
+        <div><dt>Sudut dari arah Matahari</dt><dd id="v-angle">…</dd></div>
+        <div><dt>Jarak Bumi-Bulan</dt><dd id="v-dist">…</dd></div>
+      </dl>
+
+      <fieldset class="viewer__controls">
+        <legend>Tanggal dan jam</legend>
+        <div class="controls__fields">
+          <div class="field">
+            <label for="date">Tanggal</label>
+            <input type="date" id="date" min="1800-01-01" max="2050-12-31" required aria-describedby="date-error">
+            <p class="field__error" id="date-error"></p>
+          </div>
+          <div class="field">
+            <label for="time">Jam</label>
+            <input type="time" id="time" required aria-describedby="tz time-error">
+            <p class="field__error" id="time-error"></p>
+          </div>
+        </div>
+        <p class="field__hint" id="tz"></p>
+        <div class="row">
+          <button class="btn" type="button" id="prev-day">−1 hari</button>
+          <button class="btn" type="button" id="next-day">+1 hari</button>
+          <button class="btn" type="button" id="now">Sekarang</button>
+        </div>
+      </fieldset>
+
+      <p class="viewer__desc" id="phase-desc"></p>
+      <p class="visually-hidden" id="status" aria-live="polite"></p>
+    </section>
+
+    <section class="section schedule" aria-label="Jadwal fase">
+      <div class="schedule__next">
+        <h2>Fase utama berikutnya</h2>
+        <p class="muted" id="next-intro"></p>
+        <ol class="phase-list" id="next-list"></ol>
+        <p class="small muted">Waktu fase dihitung dengan teori gerak Bulan yang disederhanakan (suku-suku terbesar dari Jean Meeus, <cite>Astronomical Algorithms</cite>). Dibandingkan dengan tabel fase Bulan dari Observatorium Angkatan Laut Amerika Serikat (USNO), selisihnya biasanya 10 menit atau kurang.</p>
+      </div>
+
+      <div class="schedule__cal">
+        <h2>Kalender fase</h2>
+        <div class="cal-nav">
+          <p class="cal-nav__month" id="cal-month" aria-live="polite"></p>
+          <div class="cal-nav__buttons">
+            <button class="btn" type="button" id="cal-prev"></button>
+            <button class="btn" type="button" id="cal-next"></button>
+          </div>
+        </div>
+        <table class="cal" id="cal">
+          <caption class="visually-hidden" id="cal-caption"></caption>
+          <thead>
+            <tr>
+              <th scope="col"><span aria-hidden="true">Min</span><span class="visually-hidden">Minggu</span></th>
+              <th scope="col"><span aria-hidden="true">Sen</span><span class="visually-hidden">Senin</span></th>
+              <th scope="col"><span aria-hidden="true">Sel</span><span class="visually-hidden">Selasa</span></th>
+              <th scope="col"><span aria-hidden="true">Rab</span><span class="visually-hidden">Rabu</span></th>
+              <th scope="col"><span aria-hidden="true">Kam</span><span class="visually-hidden">Kamis</span></th>
+              <th scope="col"><span aria-hidden="true">Jum</span><span class="visually-hidden">Jumat</span></th>
+              <th scope="col"><span aria-hidden="true">Sab</span><span class="visually-hidden">Sabtu</span></th>
+            </tr>
+          </thead>
+          <tbody id="cal-body"></tbody>
+        </table>
+        <p class="small muted">Gambar di tiap kotak adalah bentuk Bulan pukul 12.00 pada hari itu. Kotak berbingkai menandai hari terjadinya fase utama, lengkap dengan jamnya.</p>
+      </div>
+    </section>
+
+    <section class="section explain" aria-labelledby="why-title">
+      <div class="prose">
+        <h2 id="why-title">Mengapa bentuk Bulan berubah</h2>
+
+        <h3>Separuh Bulan selalu terang</h3>
+        <p>Bulan tidak memancarkan cahaya sendiri. Kita melihatnya karena permukaannya memantulkan sinar Matahari, dan setiap saat separuh bola Bulan yang menghadap Matahari sedang mengalami siang. Selama Bulan mengelilingi Bumi, bagian sisi siang yang menghadap kita berubah. Saat Bulan baru, sisi yang menghadap Bumi adalah sisi malamnya. Saat purnama, seluruh sisi siangnya menghadap kita. Bayangan Bumi tidak ikut membentuk fase. Bayangan itu baru jatuh ke Bulan ketika terjadi gerhana Bulan.</p>
+
+        <h3>Bulan sideris dan bulan sinodis</h3>
+        <p>Diukur terhadap bintang-bintang, Bulan menyelesaikan satu putaran mengelilingi Bumi dalam <span class="num" data-fill="sidereal"></span> hari. Periode ini disebut bulan sideris. Dari Bulan baru ke Bulan baru berikutnya rata-rata perlu <span class="num" data-fill="synodic"></span> hari, yang disebut bulan sinodis. Selisih sekitar <span class="num" data-fill="gap"></span> hari itu muncul karena selama satu putaran tadi Bumi juga bergeser sekitar <span class="num" data-fill="shift"></span> derajat di orbitnya. Bulan harus menempuh sedikit lebih jauh sebelum kembali berada di antara Bumi dan Matahari. Panjang tiap siklus bisa beberapa jam lebih pendek atau lebih panjang daripada rata-rata karena orbit Bulan dan orbit Bumi berbentuk elips, seperti terlihat pada keterangan penggeser umur Bulan di atas.</p>
+
+        <h3>Sisi yang selalu menghadap Bumi</h3>
+        <p>Bulan berputar pada porosnya satu kali dalam <span class="num" data-fill="rotation"></span> hari, sama dengan waktu yang diperlukannya untuk mengelilingi Bumi. Karena dua gerakan itu seirama, sisi yang sama selalu menghadap kita. Keadaan ini disebut rotasi sinkron. Penyebabnya adalah gaya pasang surut Bumi, yang dalam waktu sangat lama memperlambat putaran Bulan sampai seirama dengan peredarannya. Sisi jauh Bulan tetap mendapat sinar Matahari. Saat Bulan baru, justru sisi jauh itulah yang sedang siang.</p>
+
+        <h3 id="sabit">Sabit di langit Indonesia</h3>
+        <p id="equator-note"></p>
+        <p>Gambar Bulan di halaman ini memakai arah pandang belahan Bumi utara, sehingga sisi terangnya di kanan saat Bulan membesar dan di kiri saat Bulan mengecil.</p>
+
+        <h3>Apa itu hilal</h3>
+        <p>Hilal adalah sabit Bulan yang sangat tipis, yang pertama kali bisa terlihat setelah Bulan baru (ijtimak atau konjungsi). Hilal dicari di ufuk barat sesaat setelah Matahari terbenam. Sabitnya tipis dan letaknya rendah di langit yang masih terang, jadi hilal sering sulit dilihat. Halaman ini tidak menghitung kalender Hijriah atau peluang terlihatnya hilal.</p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Data: <a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/">NASA NSSDCA</a> dan <a href="https://ssd.jpl.nasa.gov/">JPL Solar System Dynamics</a>. Foto: NASA, kredit tertulis di setiap gambar.</p>
+    <p><a href="https://github.com/EEDTAN/Interactive-Solar-System-Education">Kode sumber di GitHub</a> · Lisensi MIT</p>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/astro.js"></script>
+<script src="js/common.js"></script>
+<script src="js/bulan.js"></script>
+</body>
+</html>

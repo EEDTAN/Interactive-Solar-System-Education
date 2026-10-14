@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hukum Kepler | Interactive Solar System</title>
+<meta name="description" content="Coba tiga hukum Kepler: orbit elips dengan Matahari di satu fokus, luas juring yang sama dalam waktu yang sama, dan hubungan periode orbit dengan jarak ke Matahari.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/kepler.css">
+<script>document.documentElement.className = 'js';</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Langsung ke isi</a>
+<header class="site-header">
+  <div class="wrap site-header__bar">
+    <a class="brand" href="index.html">Interactive Solar System</a>
+    <button class="btn btn--quiet nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav class="site-nav" id="site-nav" aria-label="Navigasi utama">
+      <ul>
+        <li><a href="index.html">Beranda</a></li>
+        <li><a href="jelajah.html">Jelajah 3D</a></li>
+        <li><a href="ensiklopedia.html">Ensiklopedia</a></li>
+        <li><a href="bandingkan.html">Bandingkan</a></li>
+        <li><a href="kalkulator.html">Kalkulator</a></li>
+        <li><a href="kepler.html" aria-current="page">Hukum Kepler</a></li>
+        <li><a href="bulan.html">Fase Bulan</a></li>
+        <li><a href="kuis.html">Kuis</a></li>
+        <li><a href="glosarium.html">Glosarium</a></li>
+        <li><a href="sejarah.html">Sejarah</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <noscript><div class="wrap"><p class="notice">Halaman ini membutuhkan JavaScript agar bisa berjalan.</p></div></noscript>
+
+  <div class="wrap page-head">
+    <h1>Hukum Kepler</h1>
+    <p class="lead">Johannes Kepler menerbitkan hukum I dan II pada 1609 dan hukum III pada 1619. Ubah bentuk orbit, amati kapan planet melaju dan melambat, lalu hitung periode orbit dari jaraknya ke Matahari.</p>
+  </div>
+
+  <section class="section wrap" aria-labelledby="lab-title">
+    <div class="section-head">
+      <h2 id="lab-title">Hukum I dan II: orbit elips</h2>
+      <p>Pilih orbit benda nyata atau geser eksentrisitasnya. Posisi planet dihitung dari persamaan Kepler (M = E &minus; e sin E) di setiap langkah animasi. Waktunya dipercepat, tetapi perbandingan laju planet di setiap titik orbit sesuai kenyataan.</p>
+    </div>
+
+    <div class="lab">
+      <div class="canvas-box lab__canvas">
+        <canvas id="orbit-canvas" role="img" aria-label="Diagram orbit elips dengan Matahari di salah satu fokus.">Diagram orbit elips dengan Matahari di salah satu fokus.</canvas>
+      </div>
+
+      <div class="panel lab__controls">
+        <div class="ctl">
+          <fieldset>
+            <legend class="field__label">Orbit benda nyata (eksentrisitas)</legend>
+            <ul class="chip-list" id="presets"></ul>
+          </fieldset>
+          <div class="field">
+            <label for="ecc">Eksentrisitas e: <output id="ecc-out" for="ecc" class="num">?</output></label>
+            <input type="range" id="ecc" min="0" max="0.97" step="0.01" value="0.2" aria-describedby="ecc-hint">
+            <p class="field__hint" id="ecc-hint">0 berarti lingkaran. Makin mendekati 1, makin lonjong.</p>
+          </div>
+        </div>
+
+        <div class="ctl">
+          <div class="row ctl__play">
+            <button type="button" class="btn" id="play">Jeda</button>
+            <div>
+              <span class="field__label" id="speed-label">Kecepatan animasi</span>
+              <div class="segmented" role="group" aria-labelledby="speed-label" id="speed">
+                <button type="button" data-speed="0.5" aria-pressed="false">0,5×</button>
+                <button type="button" data-speed="1" aria-pressed="true">1×</button>
+                <button type="button" data-speed="2" aria-pressed="false">2×</button>
+                <button type="button" data-speed="4" aria-pressed="false">4×</button>
+              </div>
+            </div>
+          </div>
+          <p class="field__hint">Pada 1×, satu putaran orbit berlangsung 12 detik.</p>
+          <div class="field">
+            <label for="time">Waktu sejak perihelion: <span id="time-out" class="num">0 periode</span></label>
+            <input type="range" id="time" min="0" max="120" step="1" value="0" aria-describedby="time-hint">
+            <p class="field__hint" id="time-hint">Menggeser waktu akan menjeda animasi. Sepuluh langkah sama dengan satu juring.</p>
+          </div>
+        </div>
+
+        <div class="ctl">
+          <fieldset>
+            <legend class="field__label">Tampilkan</legend>
+            <label class="check"><input type="checkbox" id="law1"> Hukum I: tali dua fokus</label>
+            <label class="check"><input type="checkbox" id="law2"> Hukum II: juring luas</label>
+          </fieldset>
+        </div>
+      </div>
+
+      <div class="lab__readouts">
+        <dl class="plates">
+          <div>
+            <dt>Jarak ke Matahari (r₁)</dt>
+            <dd><span id="ro-r">?</span><small id="ro-r-km"></small></dd>
+          </div>
+          <div>
+            <dt>Kecepatan</dt>
+            <dd><span id="ro-v">?</span><small id="ro-v-km"></small></dd>
+          </div>
+          <div id="ro-law1" hidden>
+            <dt>Hukum I: r₁ + r₂</dt>
+            <dd><span id="ro-sum">?</span><small id="ro-sum-parts"></small></dd>
+          </div>
+          <div id="ro-law2" hidden>
+            <dt>Hukum II: luas tiap juring</dt>
+            <dd><span id="ro-area">?</span><small id="ro-spread"></small></dd>
+          </div>
+        </dl>
+        <p class="small muted lab__note">Sumbu semi-mayor a adalah setengah sumbu panjang elips. Kecepatan rata-rata sama dengan keliling orbit dibagi periode. Angka dalam km dan km/s muncul bila orbit benda nyata dipilih. Ukuran Matahari dan planet tidak berskala.</p>
+        <div class="table-wrap">
+          <table class="data-table">
+            <caption>Titik terdekat dan terjauh pada orbit ini</caption>
+            <thead>
+              <tr><th scope="col">Titik</th><th scope="col" class="n">Jarak ke Matahari</th><th scope="col" class="n">Kecepatan</th></tr>
+            </thead>
+            <tbody id="apsides"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2 laws">
+      <div class="prose">
+        <h3>Hukum I: orbit berbentuk elips</h3>
+        <p>Orbit planet berbentuk elips dengan Matahari di salah satu titik fokusnya. Fokus yang satu lagi kosong. <a href="glosarium.html#eksentrisitas">Eksentrisitas</a> e adalah jarak fokus ke pusat elips dibagi a. Lingkaran memiliki e = 0, sedangkan orbit Komet Halley yang sangat lonjong memiliki e mendekati 1 (lihat orbitnya di <a href="jelajah.html#halley">Jelajah 3D</a>).</p>
+        <p>Nyalakan "Hukum I: tali dua fokus". Jarak planet ke Matahari (r₁) ditambah jaraknya ke fokus kosong (r₂) selalu 2a, di mana pun planet berada. Begitulah elips digambar dengan tali: kedua ujung tali sepanjang 2a dipaku di kedua fokus, lalu pensil menegangkan tali sambil berkeliling.</p>
+      </div>
+      <div class="prose">
+        <h3>Hukum II: luas sama dalam waktu sama</h3>
+        <p>Garis dari Matahari ke planet menyapu luas yang sama dalam selang waktu yang sama. Akibatnya planet bergerak paling cepat di <a href="glosarium.html#perihelion">perihelion</a>, titik terdekat ke Matahari, dan paling lambat di <a href="glosarium.html#aphelion">aphelion</a>, titik terjauh.</p>
+        <p>Nyalakan "Hukum II: juring luas". Satu periode dibagi menjadi 12 selang waktu yang sama, dan tiap selang menghasilkan satu juring. Juring di dekat Matahari pendek tetapi lebar, juring di sisi jauh panjang tetapi sempit, dan luas kedua belas juring itu sama. Juring yang sedang disapu planet diberi warna kuning.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap" aria-labelledby="law3-title">
+    <div class="section-head">
+      <h2 id="law3-title">Hukum III: periode dan jarak</h2>
+      <p>Kuadrat periode orbit sebanding dengan pangkat tiga sumbu semi-mayor. Jika periode P diukur dalam tahun dan a dalam <a href="glosarium.html#satuan-astronomi-sa">satuan astronomi</a> (SA), maka P² = a³ untuk benda apa pun yang mengorbit Matahari. Sumbu semi-mayor sama dengan rata-rata jarak terdekat dan terjauh benda itu ke Matahari.</p>
+    </div>
+
+    <div class="law3">
+      <figure class="panel panel--inset law3__chart">
+        <figcaption>
+          <h3 id="chart-title">Apakah semua benda mengikuti P² = a³?</h3>
+          <p class="small muted">Kedua sumbu memakai skala logaritmik: setiap garis bantu bernilai 10 kali garis sebelumnya. Pada skala ini P = a<sup>1,5</sup> menjadi garis lurus. Periksa apakah titik-titik data jatuh di garis itu.</p>
+        </figcaption>
+        <ul class="chart-legend small">
+          <li><span class="key key--line" aria-hidden="true"></span><span>Garis P = a<sup>1,5</sup></span></li>
+          <li><span class="key key--calc" aria-hidden="true"></span><span>Hasil kalkulator</span></li>
+        </ul>
+        <div class="chart" id="chart">
+          <div class="chart-tip" id="chart-tip" hidden></div>
+        </div>
+        <p class="small muted chart-hint" id="chart-hint">Pilih sebuah titik (klik, ketuk, atau Tab lalu Enter) untuk memakai nilai a benda itu di kalkulator.</p>
+      </figure>
+
+      <div class="panel calc">
+        <h3>Hitung periode atau jarak</h3>
+        <p class="small muted">Isi salah satu kotak. Kotak yang lain dihitung dengan P² = a³.</p>
+        <div class="field">
+          <label for="calc-a">Sumbu semi-mayor a (SA)</label>
+          <input type="text" id="calc-a" inputmode="decimal" autocomplete="off" spellcheck="false" value="4" aria-describedby="calc-a-hint calc-a-err">
+          <p class="field__hint" id="calc-a-hint">Pakai koma untuk desimal, misalnya 5,2.</p>
+          <p class="field__error" id="calc-a-err" aria-live="polite"></p>
+        </div>
+        <div class="field">
+          <label for="calc-p">Periode orbit P (tahun)</label>
+          <input type="text" id="calc-p" inputmode="decimal" autocomplete="off" spellcheck="false" aria-describedby="calc-p-err">
+          <p class="field__error" id="calc-p-err" aria-live="polite"></p>
+        </div>
+        <div class="calc__result" id="calc-result" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <div class="law3__table">
+      <div class="table-wrap" tabindex="0" role="region" aria-labelledby="ratio-caption">
+        <table class="data-table">
+          <caption id="ratio-caption">P²/a³ untuk benda yang mengorbit Matahari</caption>
+          <thead>
+            <tr>
+              <th scope="col">Benda</th>
+              <th scope="col" class="n">P²/a³</th>
+              <th scope="col" class="n">a (SA)</th>
+              <th scope="col" class="n">P (tahun)</th>
+              <th scope="col" class="n">P²</th>
+              <th scope="col" class="n">a³</th>
+            </tr>
+          </thead>
+          <tbody id="ratio-rows"></tbody>
+        </table>
+      </div>
+      <p class="small muted" id="ratio-note"></p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Data: <a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/">NASA NSSDCA</a> dan <a href="https://ssd.jpl.nasa.gov/">JPL Solar System Dynamics</a>. Foto: NASA, kredit tertulis di setiap gambar.</p>
+    <p><a href="https://github.com/EEDTAN/Interactive-Solar-System-Education">Kode sumber di GitHub</a> · Lisensi MIT</p>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/astro.js"></script>
+<script src="js/common.js"></script>
+<script src="js/kepler.js"></script>
+</body>
+</html>

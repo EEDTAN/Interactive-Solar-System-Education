@@ -1,0 +1,916 @@
+/*
+ * style.css: sistem desain bersama untuk semua halaman.
+ *
+ * Arah desain "planetarium malam":
+ * - Latar gelap karena isinya langit malam; kontras teks diuji (WCAG AA).
+ * - Satu aksen saja, kuning Matahari, untuk aksi utama, fokus, dan benda yang dipilih.
+ * - Warna lain hanya datang dari benda langit itu sendiri (titik warna planet, kanvas).
+ * - Judul serif ala atlas bintang; isi memakai huruf sistem agar cepat dan mudah dibaca.
+ * Halaman tertentu menambah aturan di css/<halaman>.css.
+ */
+
+:root {
+  --bg: #0b0f1a;           /* latar halaman */
+  --bg-raised: #121a2b;    /* panel */
+  --bg-hover: #1a2438;     /* panel saat disorot */
+  --bg-sunken: #070a12;    /* kanvas dan kolom isian */
+  --line: #222d45;         /* garis pemisah (hiasan, tidak membawa informasi) */
+  --line-strong: #62759b;  /* tepi kontrol: minimal 3:1 terhadap latar */
+  --text: #e8ecf4;
+  --text-muted: #a3afc4;   /* 7,8:1 di atas panel */
+  --accent: #ffb547;       /* kuning Matahari */
+  --accent-ink: #1b1204;   /* teks di atas aksen */
+  --good: #6ee7a0;         /* jawaban benar, selalu bersama teks */
+  --bad: #ff8a7a;          /* jawaban salah atau galat, selalu bersama teks */
+
+  --font-head: "Palatino Linotype", "Book Antiqua", Palatino, "URW Palladio L", Georgia, serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+
+  --r-s: 4px;
+  --r-m: 8px;
+  --r-l: 14px;
+
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 72px;
+
+  --wrap: 1200px;
+  --gutter: clamp(16px, 4vw, 40px);
+  --header-h: 60px;
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Atribut hidden harus menang atas kelas yang memasang display (misalnya .btn, .row). */
+[hidden] {
+  display: none !important;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-h) + 12px);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+main {
+  flex: 1;
+}
+
+img,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-head);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 var(--s-3);
+  text-wrap: balance;
+}
+
+h1 { font-size: clamp(2rem, 1.35rem + 2.6vw, 3.25rem); }
+h2 { font-size: clamp(1.45rem, 1.2rem + 1.1vw, 2rem); }
+h3 { font-size: 1.2rem; }
+h4 { font-size: 1.05rem; }
+
+p {
+  margin: 0 0 var(--s-4);
+}
+
+a {
+  color: var(--text);
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  text-decoration-color: var(--accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: var(--s-6) 0;
+}
+
+/* ---------- Teks bantu ---------- */
+
+.lead {
+  font-size: 1.125rem;
+  color: var(--text-muted);
+  max-width: 62ch;
+}
+
+.muted { color: var(--text-muted); }
+.small { font-size: 0.875rem; }
+.num { font-variant-numeric: tabular-nums; }
+
+.prose {
+  max-width: 68ch;
+}
+
+.prose p + p {
+  margin-top: calc(-1 * var(--s-1));
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--s-4);
+  top: -100px;
+  z-index: 100;
+  padding: 10px var(--s-4);
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-radius: var(--r-m);
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  top: var(--s-2);
+}
+
+/* ---------- Tata letak ---------- */
+
+.wrap {
+  width: 100%;
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.page-head {
+  padding-block: var(--s-7) var(--s-5);
+}
+
+.page-head .lead {
+  margin-bottom: 0;
+}
+
+.section {
+  padding-block: var(--s-6);
+}
+
+.section + .section {
+  border-top: 1px solid var(--line);
+}
+
+.section-head {
+  max-width: 68ch;
+  margin-bottom: var(--s-5);
+}
+
+.section-head p {
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.grid-2 {
+  display: grid;
+  gap: var(--s-5);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+}
+
+.grid-auto {
+  display: grid;
+  gap: var(--s-4);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+}
+
+.stack > * + * {
+  margin-top: var(--s-4);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+/* ---------- Kepala halaman dan navigasi ---------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+
+.site-header__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  min-height: var(--header-h);
+}
+
+.brand {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 1.15rem;
+  text-decoration: none;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+/* Dua kelas: harus mengalahkan .btn { display: inline-flex } yang ditulis lebih bawah. */
+.site-header .nav-toggle {
+  display: none;
+}
+
+.site-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+
+.site-nav a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 8px;
+  border-radius: var(--r-m);
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.site-nav a:hover {
+  color: var(--text);
+  background: var(--bg-hover);
+}
+
+.site-nav a[aria-current="page"] {
+  color: var(--text);
+  box-shadow: inset 0 -2px 0 var(--accent);
+  border-radius: var(--r-m) var(--r-m) 0 0;
+}
+
+/* Sepuluh tautan muat sebaris mulai sekitar 1260 px; di bawahnya navigasi pindah ke tombol Menu. */
+@media (max-width: 1260px) {
+  .js .nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+  }
+
+  .js .site-nav {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    max-height: calc(100dvh - var(--header-h));
+    overflow-y: auto;
+  }
+
+  .js .site-header.is-open .site-nav {
+    display: block;
+  }
+
+  .site-nav ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--s-1);
+    padding: var(--s-3) var(--gutter) var(--s-4);
+  }
+
+  .site-nav a {
+    font-size: 1rem;
+  }
+
+  .site-nav a[aria-current="page"] {
+    box-shadow: inset 3px 0 0 var(--accent);
+    border-radius: 0 var(--r-m) var(--r-m) 0;
+  }
+}
+
+/* Di bawah 360 px nama situs dan tombol Menu tidak muat sebaris (kepala jadi 106 px). */
+@media (max-width: 359px) {
+  .brand {
+    font-size: 1rem;
+  }
+}
+
+/* ---------- Kaki halaman ---------- */
+
+.site-footer {
+  border-top: 1px solid var(--line);
+  margin-top: var(--s-7);
+  padding-block: var(--s-5);
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+.site-footer .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2) var(--s-5);
+  justify-content: space-between;
+}
+
+.site-footer a {
+  color: var(--text-muted);
+}
+
+/* ---------- Tombol ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  min-height: 44px;
+  padding: 0 var(--s-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-m);
+  background: var(--bg-raised);
+  color: var(--text);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: var(--bg-hover);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Hanya untuk satu aksi utama per layar. */
+.btn--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+.btn--primary:hover {
+  background: #ffc36b;
+}
+
+.btn--quiet {
+  border-color: transparent;
+  background: transparent;
+}
+
+.btn--quiet:hover {
+  background: var(--bg-hover);
+}
+
+.btn--small {
+  padding: 0 var(--s-3);
+  font-size: 0.9rem;
+}
+
+/* Kelompok tombol yang saling eksklusif (misalnya kecepatan waktu). */
+.segmented {
+  display: inline-flex;
+  flex-wrap: wrap;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-m);
+  overflow: hidden;
+}
+
+.segmented button {
+  min-height: 44px;
+  padding: 0 var(--s-3);
+  border: 0;
+  border-right: 1px solid var(--line);
+  background: var(--bg-raised);
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.segmented button:last-child {
+  border-right: 0;
+}
+
+.segmented button:hover {
+  color: var(--text);
+  background: var(--bg-hover);
+}
+
+.segmented button[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+
+.segmented button:focus-visible {
+  outline-offset: -3px;
+}
+
+/* Cincin aksen di atas latar aksen tidak terlihat; pakai warna tinta. */
+.segmented button[aria-pressed="true"]:focus-visible {
+  outline-color: var(--accent-ink);
+}
+
+/* ---------- Formulir ---------- */
+
+.field {
+  display: grid;
+  gap: var(--s-1);
+}
+
+.field > label,
+.field__label {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.field__hint {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.field__error {
+  color: var(--bad);
+  font-size: 0.875rem;
+}
+
+.field__error:empty {
+  display: none;
+}
+
+input[type="text"],
+input[type="search"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+select {
+  min-height: 44px;
+  width: 100%;
+  padding: 0 var(--s-3);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-m);
+  background: var(--bg-sunken);
+  color: var(--text);
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+}
+
+input[aria-invalid="true"] {
+  border-color: var(--bad);
+}
+
+/* Warna bawaan peramban (#757575) hanya 4,3:1 di atas --bg-sunken. */
+::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+
+input[type="range"] {
+  width: 100%;
+  min-height: 44px;
+  accent-color: var(--accent);
+  background: transparent;
+}
+
+/* Sakelar: kotak centang dengan label di sebelahnya. */
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: 44px;
+  cursor: pointer;
+}
+
+.check input {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--accent);
+  flex: none;
+}
+
+/* ---------- Panel dan kartu ---------- */
+
+.panel {
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--r-l);
+  padding: var(--s-5);
+}
+
+.panel--inset {
+  background: var(--bg-sunken);
+}
+
+.panel > :last-child {
+  margin-bottom: 0;
+}
+
+.panel h2,
+.panel h3 {
+  margin-bottom: var(--s-2);
+}
+
+/* Kartu yang seluruhnya bisa diklik: satu tautan di judul, area klik diperluas. */
+.card {
+  position: relative;
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--r-l);
+  padding: var(--s-5);
+}
+
+.card:hover {
+  border-color: var(--line-strong);
+  background: var(--bg-hover);
+}
+
+.card a.card__link {
+  text-decoration: none;
+}
+
+.card a.card__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.card a.card__link:focus-visible {
+  outline: none;
+}
+
+.card:has(a.card__link:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---------- Data: pelat angka ---------- */
+
+/* Pasangan label kecil + angka besar, seperti papan keterangan di planetarium. */
+.plates {
+  display: grid;
+  gap: var(--s-4) var(--s-5);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 160px), 1fr));
+  margin: 0;
+}
+
+.plates > div {
+  border-top: 1px solid var(--line);
+  padding-top: var(--s-2);
+}
+
+.plates dt {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.plates dd {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.plates dd small {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+/* ---------- Tabel ---------- */
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--r-l);
+  background: var(--bg-raised);
+}
+
+.table-wrap:focus-visible {
+  outline-offset: 0;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.95rem;
+}
+
+.data-table caption {
+  text-align: left;
+  padding: var(--s-3) var(--s-4);
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.data-table th,
+.data-table td {
+  padding: var(--s-2) var(--s-4);
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.data-table thead th {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  white-space: nowrap;
+  background: var(--bg-raised);
+}
+
+.data-table tbody tr:last-child > * {
+  border-bottom: 0;
+}
+
+.data-table td.n,
+.data-table th.n {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.data-table tbody tr:hover {
+  background: var(--bg-hover);
+}
+
+.data-table tr.is-selected {
+  background: var(--bg-hover);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+/* Tombol urutkan di kepala kolom. */
+.sort-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.sort-btn:hover {
+  color: var(--text);
+}
+
+th[aria-sort] .sort-btn {
+  color: var(--text);
+}
+
+/* ---------- Penanda benda langit ---------- */
+
+/* Titik warna benda: penanda identitas, selalu berdampingan dengan namanya. */
+.dot {
+  display: inline-block;
+  width: 0.7em;
+  height: 0.7em;
+  border-radius: 50%;
+  background: var(--c, var(--text-muted));
+  flex: none;
+}
+
+.chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: 44px;
+  padding: 0 var(--s-3);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-m);
+  background: var(--bg-raised);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.95rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.chip:hover {
+  background: var(--bg-hover);
+}
+
+.chip[aria-pressed="true"],
+.chip[aria-current="true"] {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+/* ---------- Penggaris SA (motif identitas) ---------- */
+
+/* Garis jarak logaritmik dari Matahari; dibuat oleh App.ruler() di common.js. */
+/* Di layar sempit penggaris tetap 600 px (teks sekitar 11 px) dan kotaknya yang digeser. */
+.au-ruler-box {
+  overflow-x: auto;
+}
+
+.au-ruler {
+  width: 100%;
+  min-width: 600px;
+  overflow: visible;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+}
+
+.au-ruler .axis {
+  stroke: var(--line-strong);
+  stroke-width: 1;
+}
+
+.au-ruler .tick {
+  stroke: var(--line-strong);
+}
+
+.au-ruler text {
+  fill: var(--text-muted);
+  font-size: 12px;
+}
+
+.au-ruler .is-hl text {
+  fill: var(--text);
+  font-weight: 600;
+}
+
+.au-ruler a:focus-visible circle.hit {
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+
+/* ---------- Pemberitahuan dan keadaan ---------- */
+
+.notice {
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-m);
+  padding: var(--s-3) var(--s-4);
+  background: var(--bg-raised);
+}
+
+.notice--error {
+  border-color: var(--bad);
+}
+
+/* Pemberitahuan galat di awal halaman: beri jarak dari kepala halaman. */
+main > .wrap:first-child > .notice--error {
+  margin-top: var(--s-4);
+}
+
+.notice--error strong {
+  color: var(--bad);
+}
+
+/* Kotak kanvas dengan rasio tetap; kanvas memenuhi kotak. */
+.canvas-box {
+  position: relative;
+  background: var(--bg-sunken);
+  border: 1px solid var(--line);
+  border-radius: var(--r-l);
+  overflow: hidden;
+}
+
+/* manipulation: jari di atas kanvas tetap bisa menggulir halaman. Kanvas yang diseret
+   (penjelajah 3D) memasang touch-action: none di CSS halamannya sendiri. */
+.canvas-box canvas {
+  width: 100%;
+  height: 100%;
+  touch-action: manipulation;
+}
+
+/* overflow: hidden pada kotak memotong cincin fokus di luar kanvas; gambar di dalam. */
+.canvas-box canvas:focus-visible {
+  outline-offset: -4px;
+  border-radius: var(--r-l);
+}
+
+.figure-credit {
+  margin-top: var(--s-2);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+/* ---------- Gerak dan cetak ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  :root {
+    --bg: #fff;
+    --bg-raised: #fff;
+    --bg-sunken: #fff;
+    --bg-hover: #fff;
+    --text: #000;
+    --text-muted: #333;
+    --line: #ccc;
+    --line-strong: #888;
+    --bad: #b42318;   /* 6,6:1 di atas putih; #ff8a7a hanya 2,3:1 */
+    --good: #067647;  /* 5,7:1 di atas putih */
+    color-scheme: light;
+  }
+
+  /* Kanvas digambar untuk latar gelap (label terang) dan titik warna benda adalah latar elemen:
+     cetak apa adanya, karena peramban membuang latar saat mencetak. */
+  .canvas-box,
+  .dot {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .canvas-box {
+    background: #070a12;
+  }
+
+  .site-header,
+  .site-footer,
+  .skip-link,
+  .no-print {
+    display: none !important;
+  }
+}

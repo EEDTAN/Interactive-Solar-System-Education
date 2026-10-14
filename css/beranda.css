@@ -1,0 +1,299 @@
+/*
+ * beranda.css: aturan khusus Beranda (index.html).
+ * Warna, jarak, tombol, panel, dan chip datang dari style.css; di sini hanya tata letaknya.
+ */
+
+/* ---------- Pembuka: teks, peta posisi hari ini, daftar planet ---------- */
+
+/* Tiga keadaan. Ponsel: bertumpuk. Tablet: teks di atas, peta dan daftar berdampingan.
+   Desktop: teks dan daftar di kiri, peta di kanan sebagai titik fokus. */
+.hero {
+  display: grid;
+  gap: var(--s-5);
+  grid-template-areas:
+    "text"
+    "figure"
+    "list";
+}
+
+.hero__text { grid-area: text; }
+.snapshot { grid-area: figure; margin: 0; }
+.today { grid-area: list; }
+
+.hero__text .lead {
+  margin-bottom: var(--s-5);
+}
+
+@media (min-width: 640px) {
+  .hero {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    grid-template-areas:
+      "text text"
+      "figure list";
+    align-items: start;
+  }
+}
+
+@media (min-width: 1000px) {
+  .hero {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "text figure"
+      "list figure";
+    column-gap: var(--s-7);
+  }
+
+  /* 600 px: peta dan keterangannya muat di layar laptop 1366 x 768 tanpa menggulir. */
+  .snapshot {
+    justify-self: end;
+    width: 100%;
+    max-width: 600px;
+  }
+}
+
+.snapshot .canvas-box {
+  aspect-ratio: 1 / 1;
+}
+
+.snapshot figcaption {
+  margin-top: var(--s-2);
+}
+
+.snapshot .notice {
+  margin-bottom: var(--s-3);
+}
+
+.today__title {
+  font-size: 1.1rem;
+  margin-bottom: var(--s-2);
+}
+
+/* Dua kolom bila tiap kolom muat "Neptunus 29,88 SA" (sekitar 164 px), selain itu satu kolom:
+   ponsel 360 px ke bawah dan kolom sempit di samping peta pada tablet. */
+.today__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 164px), 1fr));
+  column-gap: var(--s-4);
+}
+
+/* flex-wrap: bila huruf perangkat lebih lebar, angka turun ke baris kedua, tidak meluap. */
+.today__list a {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--s-2);
+  min-height: 44px;
+  padding-inline: var(--s-1);
+  border-top: 1px solid var(--line);
+  text-decoration: none;
+}
+
+.today__name {
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 3px;
+}
+
+/* Sorotan bersama: arahkan ke nama di daftar atau ke planet di peta, keduanya menyala. */
+.today__list a:hover,
+.today__list a.is-active {
+  background: var(--bg-hover);
+}
+
+.today__list a:hover .today__name,
+.today__list a.is-active .today__name {
+  text-decoration-color: var(--accent);
+}
+
+.today__val {
+  margin-left: auto;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.today__note {
+  margin: var(--s-3) 0 0;
+}
+
+/* ---------- Penggaris SA ---------- */
+
+/* Selebar wrap (1120 px) teks penggaris jadi 21 px; 960 px memberi 18 px. */
+.ruler-box {
+  max-width: 960px;
+}
+
+.ruler-caption {
+  margin: var(--s-2) 0 0;
+  max-width: 68ch;
+}
+
+/* ---------- Yang bisa kamu pelajari ---------- */
+
+/* Jelajah 3D adalah inti situs, jadi tampil sebagai blok lebar; halaman lain cukup daftar. */
+.feature {
+  display: grid;
+  gap: var(--s-5);
+  margin-block: var(--s-5) var(--s-6);
+}
+
+@media (min-width: 800px) {
+  .feature {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    column-gap: var(--s-7);
+  }
+}
+
+.feature__title {
+  font-size: clamp(1.45rem, 1.2rem + 1.1vw, 2rem);
+}
+
+.feature__title a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.feature__intro p {
+  max-width: 62ch;
+}
+
+.feature__intro p:last-child {
+  margin-bottom: 0;
+}
+
+.feature__label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: var(--s-3);
+}
+
+.pages {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  column-gap: var(--s-6);
+}
+
+@media (min-width: 700px) {
+  .pages {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.pages li {
+  border-top: 1px solid var(--line);
+  padding-block: var(--s-1) var(--s-4);
+}
+
+.pages h3 {
+  margin: 0;
+}
+
+.pages h3 a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  min-width: 44px; /* "Kuis" saja hanya 41 px */
+}
+
+.pages p {
+  margin: 0;
+  color: var(--text-muted);
+  max-width: 54ch;
+}
+
+/* ---------- Urutan belajar dan catatan guru ---------- */
+
+.learn {
+  display: grid;
+  gap: var(--s-6);
+}
+
+@media (min-width: 900px) {
+  .learn {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    column-gap: var(--s-7);
+    align-items: start;
+  }
+}
+
+.steps {
+  margin: 0 0 var(--s-4);
+  padding-left: 1.75em;
+}
+
+.steps li {
+  padding-left: var(--s-2);
+  margin-bottom: var(--s-3);
+  max-width: 62ch;
+}
+
+.steps li::marker {
+  font-family: var(--font-head);
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.steps a {
+  font-weight: 600;
+}
+
+.steps-note {
+  max-width: 62ch;
+  margin: 0;
+}
+
+.teacher h2 {
+  font-size: 1.35rem;
+}
+
+.teacher p {
+  font-size: 0.95rem;
+}
+
+/* ---------- Tentang data ---------- */
+
+.about {
+  display: grid;
+  gap: var(--s-6);
+}
+
+@media (min-width: 900px) {
+  .about {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: var(--s-7);
+  }
+}
+
+.about p {
+  max-width: 62ch;
+}
+
+.about__download {
+  margin-block: var(--s-5) var(--s-2);
+}
+
+.sources {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.95rem;
+}
+
+.sources li {
+  border-top: 1px solid var(--line);
+}
+
+.sources a,
+.sources span {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding-block: var(--s-1);
+}
